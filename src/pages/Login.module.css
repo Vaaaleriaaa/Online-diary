@@ -1,0 +1,129 @@
+/* ========== КОНТЕЙНЕР ========== */
+.loginContainer {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+
+/* ========== ЛЕВАЯ ЧАСТЬ - КАРТИНКА (62.5%) ========== */
+.loginImage {
+  width: 62.5%;
+  height: 100vh;
+  position: relative;
+}
+
+.backgroundImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Логотип "Лампа" поверх картинки */
+.logoOverlay {
+  position: absolute;
+  top: 8rem;
+  left: 12rem;
+  background: #BBD6F1;
+  z-index: 1;
+}
+
+.logoText {
+  font-size: 3.2rem;
+  font-weight: 400;
+}
+
+/* ========== ПРАВАЯ ЧАСТЬ - ФОРМА (37.5%) ========== */
+.loginFormContainer {
+  width: 37.5%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  height: 100vh;
+}
+
+.formWrapper {
+  width: 100%;
+  padding: 6.8rem;
+}
+
+.formTitle {
+  font-size: 3.2rem;
+  font-weight: 400;
+  margin-bottom: 4rem;
+  text-align: center;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.formGroup label {
+  font-size: 2rem;
+  font-weight: 400;
+}
+
+.formGroup input {
+  width: 100%;
+  padding: 1rem 1rem;
+  font-size: 1.6rem;
+  border: 1px solid #8B8B8B;
+  border-radius: 1rem;
+  transition: all 0.2s ease;
+}
+
+.formGroup input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.formGroup input::placeholder {
+  color: #8B8B8B;
+}
+
+.formGroup input:disabled {
+  cursor: not-allowed;
+}
+
+.errorMessage {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 1.2rem 1.6rem;
+  border-radius: 1.2rem;
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+.loginButton {
+  width: 100%;
+  padding: 1.4rem;
+  background: #3b82f6;
+  color: white;
+  font-size: 2rem;
+  font-weight: 400;
+  border: none;
+  border-radius: 4rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.loginButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 1rem 2rem -0.5rem rgba(30, 60, 114, 0.4);
+}
+
+.loginButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}

@@ -1,0 +1,16 @@
+.row{
+    font-size: 1.6rem;
+    width: 46.8rem;
+}
+
+.emptyRow td {
+    background-color: #fafafa;
+}
+
+.emptyRow:last-child td {
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.emptyCell {
+    text-align: center;
+}

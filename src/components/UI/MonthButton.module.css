@@ -1,0 +1,28 @@
+/* src/components/UI/MonthButton.module.css */
+.monthButton {
+  padding: 8px 16px;
+  margin: 0 4px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  background: white;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  color: #333;
+}
+
+.monthButton:hover {
+  background: #f0f0f0;
+  transform: translateY(-1px);
+}
+
+.active {
+  background: var(--button-color, #4a90e2);
+  color: black;
+  border-color: var(--button-color, #4a90e2);
+}
+
+.active:hover {
+  background: var(--button-color, #4a90e2);
+  opacity: 0.9;
+}

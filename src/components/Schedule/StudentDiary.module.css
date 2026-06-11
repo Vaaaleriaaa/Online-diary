@@ -1,0 +1,146 @@
+/* src/components/student/StudentDiary.module.css */
+.studentDiary {
+  padding: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  background: #f5f7fa;
+  min-height: calc(100vh - 80px);
+}
+
+.weekNavigation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.weekRange {
+  font-size: 14px;
+  color: #666;
+  background: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+}
+
+.classInfo {
+  text-align: center;
+  margin-bottom: 24px;
+  padding: 12px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  color: white;
+  font-size: 1.6rem;
+}
+
+.classInfo h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.diaryGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dayCard {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+
+.dayTitle {
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  color: white;
+  padding: 12px 20px;
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dayDate {
+  font-size: 14px;
+  font-weight: normal;
+  opacity: 0.9;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.diaryTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.diaryTable th,
+.diaryTable td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.diaryTable th {
+  background: #fafbfc;
+  font-weight: 600;
+  color: #666;
+  font-size: 13px;
+}
+
+.lessonNumber {
+  width: 50px;
+  text-align: center;
+  font-weight: 600;
+  color: #888;
+}
+
+.subjectName {
+  font-weight: 500;
+  color: #333;
+}
+
+.teacherName {
+  color: #555;
+}
+
+.roomNumber {
+  width: 80px;
+  text-align: center;
+  color: #666;
+}
+
+.emptyCell {
+  color: #ddd;
+  text-align: center;
+}
+
+.loading, .error {
+  text-align: center;
+  padding: 60px;
+  font-size: 16px;
+  color: #666;
+}
+
+.error {
+  color: #f44336;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.header h1 {
+  margin: 0;
+  color: #333;
+  font-size: 24px;
+}

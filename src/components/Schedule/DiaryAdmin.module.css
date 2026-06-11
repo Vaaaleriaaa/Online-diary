@@ -1,0 +1,45 @@
+.diaryAdmin {
+  min-height: 100vh;
+  font-size: 1.6rem;
+}
+
+.twoColumns {
+  display: flex;
+  gap: 5rem;
+}
+
+.leftColumn,
+.rightColumn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.loading, .error {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1rem;
+}
+
+.error {
+  color: #dc2626;
+}
+
+.weekNavigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding: 0.5rem;
+  border-radius: 0.75rem;
+}
+
+.weekRange {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #1e293b;
+  background: #BBD6F1;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+}

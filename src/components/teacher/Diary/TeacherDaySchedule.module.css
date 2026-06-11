@@ -1,0 +1,75 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.header{
+    font-size: 2.4rem;
+    display: flex;
+    width: fit-content;
+}
+
+.dayWrap{
+    background: #95BFE9;
+    border: solid 0.1rem ;
+    
+}
+
+.day, .date{
+    display: flex;
+    margin: 0.6rem;
+}
+
+.dateWrap{
+    position: relative;
+    border: solid 0.1rem ;
+    right: 1px;
+    border-left: none;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+
+}
+
+.table th,
+.table td {
+  border: 1px solid #e2e8f0; /* граница у каждой ячейки */
+  padding: 0.5rem 0.75rem;
+  font-size: 1.6rem;
+  text-align: center;
+  justify-content: center;
+}
+
+.table th {
+  font-size: 1.6rem;
+  text-align: center;
+  font-weight: 600;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+  background: #BBD6F1;
+}
+
+tbody{
+  gap: 0.5rem;
+}
+
+.lesson-number{
+  width: 3rem;
+}
+
+.class-name {
+  width: 7rem;
+}
+
+.lesson-subject {
+  width: 26.8rem;    
+}
+
+.lesson-room{
+  width: 10rem;
+}
+

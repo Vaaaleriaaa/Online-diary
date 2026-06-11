@@ -1,0 +1,22 @@
+.select {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.6rem;
+  background: white;
+  font-size: 1.6rem;
+  cursor: pointer;
+  overflow: visible;
+}
+
+.select:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.select:disabled {
+  background: #f5f5f5;
+  color: #999;
+  cursor: not-allowed;
+  border-color: #e0e0e0;
+}

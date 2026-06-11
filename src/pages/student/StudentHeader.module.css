@@ -1,0 +1,78 @@
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  background: #BBD6F1;
+  padding: 1rem 5rem;
+  gap: 1rem;
+}
+
+.logoText {
+  font-size: 3.2rem;
+  font-weight: 500;
+  color: #000000;
+  padding-right: 3rem;
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+  align-items:center;
+  gap: 4.5rem;
+}
+
+.navLink {
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #000000;
+  font-size: 1.8rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 20rem;
+}
+
+.navLink:hover {
+  color: white;
+  background: #408bd8;
+}
+
+.userMenu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.profileLink {
+  display: flex;
+  align-items: center;
+  color: #000000;
+  font-size: 1.8rem;
+  padding: 0.5rem 1.1rem;
+}
+
+.profileLink:hover {
+  border-radius: 20rem;
+  padding: 0.5rem 1.1rem;
+  background: #408bd8;
+  color: #ffffff;
+}
+
+.profileName {
+  font-weight: 500;
+}
+
+.logoutButton {
+  background: #408bd8;
+  color: #ffffff;
+  padding: 0.5rem 1.1rem;
+  border-radius: 20rem;
+  font-size: 1.6rem;
+  cursor: pointer;
+}
+
+.logoutButton:hover {
+  background: #ec3d37;
+}

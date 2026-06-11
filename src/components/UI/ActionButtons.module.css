@@ -1,0 +1,80 @@
+/* Общие стили для кнопок */
+.editBtn, .deleteBtn, .saveBtn, .cancelBtn {
+  width: 3.2rem;
+  height: 3.2rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 1.4rem;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  width: 2.3rem;
+  height: 2.3rem;
+  display: block;
+  pointer-events: none;
+}
+
+/* Цвет фона кнопок */
+.editBtn {
+  background: #e2e8f0;
+}
+
+.editBtn:hover {
+  background: #fecaca;
+  transform: scale(1.05);
+}
+
+.deleteBtn {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.deleteBtn:hover {
+  background: #fecaca;
+  transform: scale(1.05);
+}
+
+.saveBtn {
+  background: #20f6af;
+}
+
+.saveBtn:hover {
+  background: #059669;
+  transform: scale(1.05);
+}
+
+.cancelBtn {
+  background: #f86262;
+  color: white;
+}
+
+.cancelBtn:hover {
+  background: #dc2626;
+  transform: scale(1.05);
+}
+
+.nextlBtn, .prevBtn {
+  display: flex;
+  padding: 1rem 2rem;
+  background: #f1f5f9;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 1.6rem;
+  transition: all 0.2s;
+  gap: 1rem;
+  align-items: center
+}
+
+.prevBtn img{
+  transform: rotate(180deg);
+}
+
+.nextlBtn:hover, .prevBtn:hover{
+  background: #e2e8f0;
+}

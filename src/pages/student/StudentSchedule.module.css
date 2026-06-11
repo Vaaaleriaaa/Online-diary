@@ -1,0 +1,102 @@
+.container {
+    font-size: 1.6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 5rem 5rem 7rem 5rem;
+    gap: 2rem;
+}
+
+h2 {
+  font-size: 3.2rem;
+  font-weight: 700;
+}
+
+.twoColumns{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2.1rem;
+}
+
+.leftColumn, .rightColumn{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5rem;
+}
+
+.loading, .empty {
+  text-align: center;
+  padding: 6rem 2rem;
+  background: white;
+  border-radius: 1.2rem;
+  color: #94a3b8;
+  font-size: 1.6rem;
+}
+
+.empty {
+  color: #cbd5e1;
+}
+
+@media (max-width: 1200px) {
+    .container {
+        margin: 3rem;
+    }
+    
+    .weekNavigation {
+        gap: 4rem;
+    }
+}
+
+/* Адаптивность для экранов меньше 900px - колонки выстраиваются в одну */
+@media (max-width: 900px) {
+    .container {
+        margin: 2rem;
+        align-items: center;
+    }
+    
+    .weekNavigation {
+        gap: 2rem;
+        flex-direction: column;
+    }
+    
+    .weekRange {
+        order: -1;
+        margin-bottom: 1rem;
+    }
+    
+    .twoColumns {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .leftColumn, .rightColumn {
+        width: 100%;
+        min-width: auto;
+    }
+}
+
+/* Адаптивность для мобильных экранов */
+@media (max-width: 600px) {
+    .container {
+        margin: 1rem;
+    }
+    
+    h2 {
+        font-size: 2.4rem;
+        text-align: center;
+    }
+    
+    .weekNavigation button {
+        padding: 0.8rem 1.2rem;
+        font-size: 1.4rem;
+    }
+    
+    .weekRange {
+        font-size: 1.2rem;
+        text-align: center;
+    }
+}

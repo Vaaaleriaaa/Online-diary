@@ -1,0 +1,92 @@
+.row {
+  border-bottom: 0.1rem solid #e8e8e8;
+  transition: background-color 0.2s;
+}
+
+.row:hover {
+  background-color: #f9f9f9;
+}
+
+.rowNumber {
+  width: 5rem;
+  text-align: center;
+  font-weight: 500;
+  color: #666;
+  padding: 1.2rem 0.8rem;
+}
+
+.studentName {
+  font-weight: 500;
+  color: #333;
+  padding: 1.2rem 0.8rem;
+  white-space: nowrap;
+  position: sticky;
+  left: 0;
+  background: inherit;
+  z-index: 1;
+}
+
+/* Ячейки для оценок */
+.gradeCell {
+  text-align: center;
+  padding: 0.8rem 0.4rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  min-width: 50px;
+}
+
+.gradeCell:hover {
+  background-color: #e8f5e9;
+}
+
+.cellValue {
+  display: inline-block;
+  min-width: 24px;
+  padding: 4px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+/* Ячейки для посещаемости */
+.attendanceCell {
+  text-align: center;
+  padding: 8px 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  min-width: 50px;
+  font-weight: 500;
+}
+
+.attendanceCell:hover {
+  background-color: #fff3e0;
+}
+
+.attendanceCell.absent {
+  color: #f44336;
+}
+
+.attendanceCell.late {
+  color: #ff9800;
+}
+
+.attendanceCell.sick {
+  color: #2196f3;
+}
+
+/* Инпут для редактирования */
+.cellInput {
+  width: 50px;
+  padding: 6px 8px;
+  text-align: center;
+  border: 2px solid #4caf50;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  outline: none;
+  background: white;
+}
+
+.cellInput:focus {
+  border-color: #2196f3;
+  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+}

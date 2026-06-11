@@ -1,0 +1,68 @@
+/* Таблица */
+.journalTable {
+  border-collapse: collapse;
+  font-size: 1.6rem;
+  table-layout: fixed;
+}
+
+/* Заголовки */
+.journalTable th {
+  padding: 1.4rem 1.2rem;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.6rem;
+  color: #475569;
+  background: #f1f5f9;
+  border: 0.1rem solid #afb5bc;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.rowNumberColumn {
+  width: 1rem;
+}
+
+.subjectColumn {
+  width: 26.3rem;
+  text-align: left;
+  position: sticky;
+  left: 0;
+  background: #f1f5f9;
+  z-index: 11;
+}
+
+.dayColumn {
+  width: 5rem;
+  font-size: 1.2rem;
+}
+
+/* Ячейки */
+.journalTable td {
+  padding: 1rem 0.8rem;
+  text-align: center;
+  border: 0.1rem solid #afb5bc;
+  vertical-align: middle;
+}
+
+.rowNumber {
+  text-align: center;
+  font-weight: 500;
+  color: #64748b;
+  font-size: 1.3rem;
+}
+
+/* Состояния загрузки и пустоты */
+.loading, .empty {
+  text-align: center;
+  padding: 6rem 2rem;
+  background: white;
+  border-radius: 1.2rem;
+  color: #94a3b8;
+  font-size: 1.6rem;
+  margin-top: 2rem;
+}
+
+.empty {
+  color: #cbd5e1;
+}

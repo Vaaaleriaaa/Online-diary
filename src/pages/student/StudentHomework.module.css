@@ -1,0 +1,124 @@
+.studentHomework {
+  font-size: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  margin: 5rem 5rem 7rem 5rem;
+  gap: 2rem;
+}
+
+.h1 {
+  font-size: 3.2rem;
+  font-weight: 600;
+}
+
+.filter {
+  width: 20rem;
+}
+
+.homeworkList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  overflow: hidden;
+}
+
+.homeworkItem {
+  display: flex;
+  align-items: stretch;
+  transition: all 0.2s;
+}
+
+.homeworkItem.even {
+  background-color: transparent;
+}
+
+.homeworkItem.odd {
+  background-color: #BBD6F1;
+}
+
+.homeworkItem:hover {
+  background-color: #EBEBEB;
+}
+
+.homeworkDate {
+  min-width: 12rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-right: 0.1rem solid #ddd;
+  background: inherit;
+}
+
+.day {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.lessonNumber {
+  font-size: 1.2rem;
+  color: #666;
+  margin-top: 0.4rem;
+}
+
+.homeworkContent {
+  flex: 1;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  background: inherit;
+}
+
+.homeworkText {
+  font-size: 1.4rem;
+  color: #333;
+  line-height: 1.5;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+.loading, .empty {
+  text-align: center;
+  padding: 6rem 2rem;
+  background: white;
+  border-radius: 1.2rem;
+  color: #94a3b8;
+  font-size: 1.6rem;
+}
+
+.empty {
+  color: #cbd5e1;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  
+  .homeworkItem {
+    flex-wrap: wrap;
+  }
+  
+  .homeworkDate {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    border-right: none;
+    border-bottom: 0.1rem solid #ddd;
+    padding: 1rem;
+  }
+  
+  .day {
+    font-size: 1.4rem;
+  }
+  
+  .lessonNumber {
+    margin-top: 0;
+  }
+  
+  .homeworkContent {
+    width: 100%;
+    padding: 1rem;
+  }
+  
+}
