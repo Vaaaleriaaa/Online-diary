@@ -1,0 +1,133 @@
+/* src/components/UI/ConfirmModal.module.css */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1100;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal {
+  background: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 450px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  animation: slideIn 0.2s ease;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+  font-weight: 600;
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #999;
+  padding: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.closeBtn:hover {
+  background: #e0e0e0;
+  color: #666;
+}
+
+.content {
+  padding: 24px;
+}
+
+.content p {
+  margin: 0;
+  font-size: 16px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 20px 24px;
+  background: #f8f9fa;
+  border-top: 1px solid #e0e0e0;
+}
+
+.cancelBtn {
+  padding: 8px 20px;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #666;
+  transition: all 0.2s;
+}
+
+.cancelBtn:hover {
+  background: #e0e0e0;
+  border-color: #ccc;
+}
+
+.confirmBtn {
+  padding: 8px 20px;
+  background: #dc3545;
+  border: 1px solid #dc3545;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  color: white;
+  transition: all 0.2s;
+}
+
+.confirmBtn:hover {
+  background: #c82333;
+  border-color: #bd2130;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

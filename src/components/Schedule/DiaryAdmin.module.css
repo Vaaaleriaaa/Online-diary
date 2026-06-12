@@ -1,19 +1,25 @@
 .diaryAdmin {
-  min-height: 100vh;
   font-size: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  margin: 5rem 5rem 7rem 5rem;
+  gap: 2rem;
 }
 
 .twoColumns {
   display: flex;
-  gap: 5rem;
+  align-items: center;
+  justify-content: center;
+  gap: 2.1rem;
 }
 
 .leftColumn,
 .rightColumn {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  justify-content: center;
+  align-items: center;
+  gap: 5rem;
 }
 
 .loading, .error {
@@ -26,20 +32,37 @@
   color: #dc2626;
 }
 
-.weekNavigation {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-  padding: 0.5rem;
-  border-radius: 0.75rem;
+@media (max-width: 1200px) {
+    .diaryAdmin {
+        margin: 3rem;
+    }
 }
 
-.weekRange {
-  font-size: 1.6rem;
-  font-weight: 600;
-  color: #1e293b;
-  background: #BBD6F1;
-  padding: 0.5rem 1rem;
-  border-radius: 1rem;
+/* Адаптивность для экранов меньше 900px - колонки выстраиваются в одну */
+@media (max-width: 900px) {
+    .diaryAdmin {
+        margin: 2rem;
+    }
+    
+    .twoColumns {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .leftColumn, .rightColumn {
+        width: 100%;
+        min-width: auto;
+    }
+}
+
+/* Адаптивность для мобильных экранов */
+@media (max-width: 600px) {
+    .diaryAdmin {
+        margin: 1rem;
+    }
+    
+    h2 {
+        font-size: 2.4rem;
+        text-align: center;
+    }
 }

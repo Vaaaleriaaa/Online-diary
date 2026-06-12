@@ -22,7 +22,7 @@ const AdminHeader = () => {
       
       <nav className={styles.nav}>
         <Link to="/admin/schedule" className={styles.navLink}>Расписание</Link>
-        <Link to="/admin/classes" className={styles.navLink}>Классы</Link>
+        <Link to="/admin/students" className={styles.navLink}>Ученики</Link>
         <Link to="/admin/load" className={styles.navLink}>Нагрузка</Link>
         <Link to="/admin/users" className={styles.navLink}>Пользователи</Link>
       </nav>

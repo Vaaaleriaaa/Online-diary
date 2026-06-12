@@ -26,6 +26,16 @@ h2 {
     gap: 5rem;
 }
 
+.loading, .error {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1rem;
+}
+
+.error {
+  color: #dc2626;
+}
+
 @media (max-width: 1200px) {
     .container {
         margin: 3rem;

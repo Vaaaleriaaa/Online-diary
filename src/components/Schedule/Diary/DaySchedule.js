@@ -70,20 +70,24 @@ const DaySchedule = ({
   const selectedAssignment = assignments.find(a => a.assignment_id === parseInt(newLessonForm.assignmentId));
 
   return (
-    <div className={styles.daySchedule}>
-      <div className={styles.dayHeader}>
-        <h3 className={styles.dayTitle}>{dayName}</h3>
-        {date && <span className={styles.date}>{formatDate(date)}</span>}
+   <div className={styles.container}>
+      <div className={styles.header}>
+        <div className={styles.dayWrap}>
+          <span className={styles.day}>{dayName}</span>
+        </div>
+        <div className={styles.dateWrap}>
+          <span className={styles.date}>{formatDate(date)}</span>
+        </div>
       </div>
       
       <table className={styles.table}>
         <thead>
           <tr>
-            <th>№</th>
-            <th>Предмет</th>
-            <th>Учитель</th>
-            <th>Кабинет</th>
-            <th>Действия</th>
+            <th className={styles["lesson-number"]}>№</th>
+            <th className={styles["subject-name"]}>Предмет</th>
+            <th className={styles["teacher-name"]}>Учитель</th>
+            <th className={styles["lesson-room"]}>Кабинет</th>
+            <th className={styles["actions"]}>Действия</th>
           </tr>
         </thead>
         <tbody>
@@ -95,7 +99,7 @@ const DaySchedule = ({
               return (
                 <tr key={slot.lesson_number}>
                   <td className={styles.lessonNumber}>{slot.lesson_number}</td>
-                  <td className={styles.cell}>
+                  <td className={styles["subject-name"]}>
                     <Select
                       value={newLessonForm.assignmentId}
                       onChange={handleAddChange}
@@ -104,10 +108,10 @@ const DaySchedule = ({
                       name="assignmentId"
                     />
                   </td>
-                  <td className={styles.cell}>
+                  <td className={styles["teacher-name"]}>
                     {selectedAssignment ? `${selectedAssignment.teacher.last_name} ${selectedAssignment.teacher.first_name}` : '—'}
                   </td>
-                  <td className={styles.cell}>
+                  <td className={styles["lesson-room"]}>
                     <Select
                       value={newLessonForm.roomId}
                       onChange={handleAddChange}
@@ -116,7 +120,7 @@ const DaySchedule = ({
                       name="roomId"
                     />
                   </td>
-                  <td className={styles.actionsCell}>
+                  <td className={styles.actionButtons}>
                     <SaveButton onClick={() => handleAddSave(slot.lesson_number)} />
                     <CancelButton onClick={handleAddCancel} />
                   </td>

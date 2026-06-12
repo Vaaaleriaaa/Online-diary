@@ -2,8 +2,8 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import ClassSelector from '../UI/ClassSelector';
 import DaySchedule from './Diary/DaySchedule';
 import styles from './DiaryAdmin.module.css';
-import NextButton from '../UI/NextButton';
-import PrevButton from '../UI/PrevButton';
+import useWeekNavigation from '../../hooks/useWeekNavigation';
+import WeekNavigation from "../../components/UI/WeekNavigation";
 import Notification from '../UI/Notification';
 
 const DiaryAdmin = () => {
@@ -15,7 +15,6 @@ const DiaryAdmin = () => {
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [currentWeekDate, setCurrentWeekDate] = useState('');
   const [notification, setNotification] = useState({ message: '', type: '' });
   const notificationTimeoutRef = useRef(null);
 
@@ -42,37 +41,20 @@ const DiaryAdmin = () => {
     setNotification({ message: '', type: '' });
   };
 
-  // Получение даты понедельника текущей недели
-  const getCurrentWeekMonday = () => {
-    const today = new Date();
-    const dayOfWeek = today.getDay();
-    const daysToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
-    const monday = new Date(today);
-    monday.setDate(today.getDate() - daysToMonday);
-    
-    const year = monday.getFullYear();
-    const month = String(monday.getMonth() + 1).padStart(2, '0');
-    const day = String(monday.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  };
+  const { 
+    currentWeekDate, 
+    setCurrentWeek, 
+    getWeekDates, 
+    formatWeekRange, 
+    goToPrevWeek, 
+    goToNextWeek 
+  } = useWeekNavigation();
+  
+  const weekDates = getWeekDates(currentWeekDate);
 
-  // Получение дат всех дней недели
-  const getWeekDates = (mondayDate) => {
-    if (!mondayDate) return {};
-    const [year, month, day] = mondayDate.split('-').map(Number);
-    const weekDates = {};
-    const daysOfWeek = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
-    
-    daysOfWeek.forEach((dayName, index) => {
-      const date = new Date(year, month - 1, day + index);
-      const y = date.getFullYear();
-      const m = String(date.getMonth() + 1).padStart(2, '0');
-      const d = String(date.getDate()).padStart(2, '0');
-      weekDates[dayName] = `${y}-${m}-${d}`;
-    });
-    
-    return weekDates;
-  };
+  useEffect(() => {
+    setCurrentWeek();
+  }, [setCurrentWeek]);
 
   // Загрузка расписания класса - объявляем ПЕРВОЙ, так как она нужна в других функциях
   const fetchClassSchedule = useCallback(async () => {
@@ -337,25 +319,6 @@ const updateLesson = async (lessonId, formData) => {
     }
   };
 
-  // Навигация по неделям
-  const goToPrevWeek = () => {
-    const currentMonday = new Date(currentWeekDate);
-    currentMonday.setDate(currentMonday.getDate() - 7);
-    const year = currentMonday.getFullYear();
-    const month = String(currentMonday.getMonth() + 1).padStart(2, '0');
-    const day = String(currentMonday.getDate()).padStart(2, '0');
-    setCurrentWeekDate(`${year}-${month}-${day}`);
-  };
-
-  const goToNextWeek = () => {
-    const currentMonday = new Date(currentWeekDate);
-    currentMonday.setDate(currentMonday.getDate() + 7);
-    const year = currentMonday.getFullYear();
-    const month = String(currentMonday.getMonth() + 1).padStart(2, '0');
-    const day = String(currentMonday.getDate()).padStart(2, '0');
-    setCurrentWeekDate(`${year}-${month}-${day}`);
-  };
-
   // useEffect для начальной загрузки данных
   useEffect(() => {
     const init = async () => {
@@ -364,28 +327,22 @@ const updateLesson = async (lessonId, formData) => {
       await fetchRooms();
     };
     init();
-  }, []);
+  }, [fetchClasses, fetchLessonSlots, fetchRooms]);
 
   // Загрузка назначений при выборе класса
   useEffect(() => {
     if (selectedClassId) {
       fetchAssignments();
     }
-  }, [selectedClassId]);
-
-  // Установка текущей недели
-  useEffect(() => {
-    setCurrentWeekDate(getCurrentWeekMonday());
-  }, []);
+  }, [fetchAssignments]);
 
   // Загрузка расписания при выборе класса или смене недели
   useEffect(() => {
     if (selectedClassId && currentWeekDate) {
       fetchClassSchedule();
     }
-  }, [selectedClassId, currentWeekDate]);
+  }, [fetchClassSchedule]);
 
-  const weekDates = currentWeekDate ? getWeekDates(currentWeekDate) : {};
   const leftDays = days.filter(day => day.column === 'left');
   const rightDays = days.filter(day => day.column === 'right');
 
@@ -415,13 +372,12 @@ const updateLesson = async (lessonId, formData) => {
         onClose={clearNotification}
       />
       
-      <div className={styles.weekNavigation}>
-        <PrevButton onClick={goToPrevWeek} title='Предыдущая неделя' />
-        <span className={styles.weekRange}>
-          {weekDates['Понедельник'] && `${weekDates['Понедельник']} - ${weekDates['Суббота']}`}
-        </span>
-        <NextButton onClick={goToNextWeek} title='Следующая неделя'/>
-      </div>
+       <WeekNavigation 
+          weekDates={weekDates}
+          formatWeekRange={formatWeekRange}
+          onPrevWeek={goToPrevWeek}
+          onNextWeek={goToNextWeek}
+      />
 
       <ClassSelector
         items={classItems}

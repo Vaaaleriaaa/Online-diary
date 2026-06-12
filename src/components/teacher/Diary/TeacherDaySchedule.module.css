@@ -1,13 +1,13 @@
 .container{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .header{
-    font-size: 2.4rem;
-    display: flex;
-    width: fit-content;
+  font-size: 2.4rem;
+  display: flex;
+  width: fit-content;
 }
 
 .dayWrap{
@@ -72,4 +72,3 @@ tbody{
 .lesson-room{
   width: 10rem;
 }
-

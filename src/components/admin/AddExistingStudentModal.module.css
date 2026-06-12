@@ -1,0 +1,157 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal h2 {
+  padding: 20px 20px 0 20px;
+  margin: 0;
+  font-size: 20px;
+  color: #333;
+}
+
+.modalForm {
+  padding: 20px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #555;
+  font-size: 14px;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.1);
+}
+
+.studentsList {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+}
+
+.studentItem {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.studentItem:hover {
+  background-color: #f5f5f5;
+}
+
+.studentItem.selected {
+  background-color: #e3f2fd;
+}
+
+.studentItem input[type="radio"] {
+  margin-right: 12px;
+  cursor: pointer;
+}
+
+.studentName {
+  flex: 1;
+  font-weight: 500;
+  color: #333;
+}
+
+.studentLogin {
+  font-size: 12px;
+  color: #999;
+  margin-left: 10px;
+}
+
+.emptyStudents {
+  padding: 40px;
+  text-align: center;
+  color: #999;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 20px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.cancelModalBtn {
+  padding: 8px 16px;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.cancelModalBtn:hover {
+  background: #e0e0e0;
+}
+
+/* Скроллбар для списка учеников */
+.studentsList::-webkit-scrollbar {
+  width: 8px;
+}
+
+.studentsList::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.studentsList::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.studentsList::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

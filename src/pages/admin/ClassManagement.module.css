@@ -1,0 +1,433 @@
+.classManagement {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  background: #f5f7fa;
+  min-height: calc(100vh - 8rem);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.header h1 {
+  font-size: 2.4rem;
+  color: #333;
+  margin: 0;
+}
+
+.filters {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 0.1rem 0.3rem rgba(0,0,0,0.1);
+}
+
+.filterGroup {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filterGroup label {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.filterGroup select {
+  min-width: 10rem;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  background: white;
+  border-radius: 1.2rem;
+  box-shadow: 0 0.2rem 0.8rem rgba(0, 0, 0, 0.08);
+}
+
+.studentsTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1.4rem;
+}
+
+.studentsTable th,
+.studentsTable td {
+  padding: 1.2rem 1rem;
+  text-align: left;
+  border-bottom: 0.1rem solid #e2e8f0;
+}
+
+.studentsTable th {
+  background: #f8fafc;
+  font-weight: 600;
+  color: #475569;
+  font-size: 1.3rem;
+}
+
+.studentsTable tbody tr:hover {
+  background: #f8fafc;
+}
+
+.rowNumber {
+  width: 5rem;
+  text-align: center;
+  color: #64748b;
+}
+
+.fullName {
+  min-width: 25rem;
+}
+
+.class {
+  width: 12rem;
+}
+
+.actions {
+  width: 12rem;
+  text-align: center;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.assignBtn {
+  background: #4caf50;
+  color: white;
+  border: none;
+  width: 2.8rem;
+  height: 2.8rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  transition: background 0.2s;
+}
+
+.assignBtn:hover {
+  background: #45a049;
+}
+
+.editFields {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.input {
+  padding: 0.5rem;
+  border: 0.1rem solid #cbd5e1;
+  border-radius: 0.4rem;
+  font-size: 1.3rem;
+  font-family: inherit;
+  min-width: 10rem;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #4a90e2;
+}
+
+.loading {
+  text-align: center;
+  padding: 6rem;
+  font-size: 1.6rem;
+  color: #666;
+}
+
+.empty {
+  text-align: center;
+  padding: 4rem;
+  color: #94a3b8;
+  font-size: 1.4rem;
+  background: white;
+  border-radius: 1.2rem;
+  margin-top: 2rem;
+}
+
+/* Модальное окно */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  border-radius: 1.2rem;
+  padding: 2.5rem;
+  width: 90%;
+  max-width: 45rem;
+  box-shadow: 0 0.4rem 2rem rgba(0, 0, 0, 0.2);
+}
+
+.modal h2 {
+  margin: 0 0 2rem 0;
+  font-size: 2rem;
+  color: #333;
+}
+
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formGroup label {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.formGroup input {
+  padding: 0.8rem;
+  border: 0.1rem solid #cbd5e1;
+  border-radius: 0.6rem;
+  font-size: 1.4rem;
+}
+
+.formGroup input:focus {
+  outline: none;
+  border-color: #4a90e2;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.cancelModalBtn {
+  padding: 0.8rem 1.6rem;
+  background: #f5f5f5;
+  border: none;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  font-size: 1.4rem;
+  transition: background 0.2s;
+}
+
+.cancelModalBtn:hover {
+  background: #e0e0e0;
+}
+
+.saveModalBtn {
+  padding: 0.8rem 1.6rem;
+  background: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  font-size: 1.4rem;
+  transition: background 0.2s;
+}
+
+.saveModalBtn:hover {
+  background: #357abd;
+}
+
+.threeColumns {
+  display: flex;
+  gap: 20px;
+  height: calc(100vh - 100px);
+}
+
+.column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.columnHeader {
+  padding: 15px;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f5f5f5;
+}
+
+.columnHeader h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.columnContent {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.gradeItem,
+.classItem {
+  padding: 10px 12px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.gradeItem {
+  font-weight: 500;
+}
+
+.gradeItem:hover,
+.classItem:hover {
+  background: #f0f0f0;
+}
+
+.gradeItem.active,
+.classItem.active {
+  background: #e3f2fd;
+  color: #1976d2;
+  font-weight: 500;
+}
+
+.classItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.className {
+  flex: 1;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.classActions {
+  display: flex;
+  gap: 5px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.classItem:hover .classActions {
+  opacity: 1;
+}
+
+.headerButtons {
+  display: flex;
+  gap: 8px;
+}
+
+.smallAddButton {
+  padding: 4px 8px !important;
+  font-size: 12px !important;
+}
+
+.studentsTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.studentsTable th,
+.studentsTable td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.rowNumber {
+  width: 50px;
+  text-align: center;
+}
+
+.fullName {
+  flex: 1;
+}
+
+.actions {
+  width: 100px;
+  text-align: center;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+
+.editFields {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.input {
+  padding: 5px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.emptyMessage {
+  text-align: center;
+  padding: 40px;
+  color: #999;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .classManagement {
+    padding: 1rem;
+  }
+  
+  .editFields {
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  
+  .input {
+    min-width: auto;
+  }
+  
+  .studentsTable th,
+  .studentsTable td {
+    padding: 0.8rem 0.5rem;
+    font-size: 1.2rem;
+  }
+  
+  .fullName {
+    min-width: 18rem;
+  }
+}

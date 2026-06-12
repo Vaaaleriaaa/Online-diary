@@ -98,11 +98,11 @@ const TeacherSchedule = () => {
   return (
     <div className={styles.container}>
       <h2>Расписание</h2>
-       <WeekNavigation 
-          weekDates={weekDates}
-          formatWeekRange={formatWeekRange}
-          onPrevWeek={goToPrevWeek}
-          onNextWeek={goToNextWeek}
+      <WeekNavigation 
+        weekDates={weekDates}
+        formatWeekRange={formatWeekRange}
+        onPrevWeek={goToPrevWeek}
+        onNextWeek={goToNextWeek}
       />
 
       <div className={styles.twoColumns}>

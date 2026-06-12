@@ -1,0 +1,168 @@
+/* src/components/admin/CreateStudentModal.module.css */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  border-radius: 1.2rem;
+  padding: 2.5rem;
+  width: 90%;
+  max-width: 45rem;
+  box-shadow: 0 0.4rem 2rem rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal h2 {
+  margin: 0 0 2rem 0;
+  font-size: 2rem;
+  color: #333;
+}
+
+.successTitle {
+  color: #4caf50 !important;
+  text-align: center;
+}
+
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formGroup label {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.formGroup input {
+  padding: 0.8rem;
+  border: 0.1rem solid #cbd5e1;
+  border-radius: 0.6rem;
+  font-size: 1.4rem;
+}
+
+.formGroup input:focus {
+  outline: none;
+  border-color: #4a90e2;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.cancelModalBtn {
+  padding: 0.8rem 1.6rem;
+  background: #f5f5f5;
+  border: none;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  font-size: 1.4rem;
+  transition: background 0.2s;
+}
+
+.cancelModalBtn:hover {
+  background: #e0e0e0;
+}
+
+.closeModalBtn {
+  width: 100%;
+  padding: 1rem;
+  background: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  font-size: 1.4rem;
+  transition: background 0.2s;
+}
+
+.closeModalBtn:hover {
+  background: #357abd;
+}
+
+/* Секция с паролем */
+.passwordSection {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.passwordLabel {
+  font-size: 1.4rem;
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.passwordBox {
+  background: #f5f5f5;
+  padding: 1.5rem;
+  border-radius: 0.8rem;
+  margin: 1.5rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.passwordCode {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.2rem;
+  color: #333;
+  background: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-family: monospace;
+}
+
+.copyBtn {
+  padding: 0.6rem 1.2rem;
+  background: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 1.3rem;
+  transition: background 0.2s;
+}
+
+.copyBtn:hover {
+  background: #357abd;
+}
+
+.passwordHint {
+  font-size: 1.2rem;
+  color: #999;
+  margin-top: 1rem;
+}
