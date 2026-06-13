@@ -10,6 +10,7 @@ import SaveButton from "../../components/UI/SaveButton";
 import CancelButton from "../../components/UI/CancelButton";
 import Notification from "../../components/UI/Notification";
 import DeleteButton from "../../components/UI/DeleteButton";
+import AddButton from "../../components/UI/AddButton";
 
 const TeacherHomework = () => {
   const { user } = useAuth();
@@ -25,6 +26,8 @@ const TeacherHomework = () => {
   const [editingHomeworkId, setEditingHomeworkId] = useState(null);
   const [editText, setEditText] = useState('');
   const [notification, setNotification] = useState({ message: '', type: '' });
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [homeworkToDelete, setHomeworkToDelete] = useState(null);
 
   const { selectedMonth, months, setMonth } = useMonthNavigation();
 
@@ -128,8 +131,8 @@ const TeacherHomework = () => {
 
   // Сохранение ДЗ
   const handleSaveHomework = async (homeworkId, lessonId) => {
-    const textToSave = typeof editText === 'string' ? editText.trim() : '';
-    
+    const textToSave = editText && typeof editText === 'string' ? editText.trim() : '';
+
     if (!textToSave) {
       showNotification('Введите текст домашнего задания', 'error');
       return;
@@ -163,8 +166,7 @@ const TeacherHomework = () => {
 
   // Создание нового ДЗ
   const handleCreateHomework = async (lessonId) => {
-    const textToSave = typeof editText === 'string' ? editText.trim() : '';
-  
+    const textToSave = editText && typeof editText === 'string' ? editText.trim() : '';
     if (!textToSave) {
       showNotification('Введите текст домашнего задания', 'error');
       return;
@@ -199,9 +201,7 @@ const TeacherHomework = () => {
   };
 
   // Удаление ДЗ
-  const handleDeleteHomework = async (homeworkId) => {
-    if (!window.confirm('Удалить домашнее задание?')) return;
-    
+  const handleDeleteHomework = async (homeworkId) => {    
     try {
       const response = await fetch(`http://localhost:3000/homework/${homeworkId}`, {
         method: 'DELETE',
@@ -295,6 +295,7 @@ const TeacherHomework = () => {
         type={notification.type} 
         onClose={() => setNotification({ message: '', type: '' })}
       />
+
       <h1>Домашние задания</h1>
       <div className={styles.filters}>
         <Select
@@ -357,7 +358,17 @@ const TeacherHomework = () => {
                     />
                   ) : (
                     <div className={styles.homeworkText}>
-                      {hasHomework ? homework.homework_text : '—'}
+                      {hasHomework ? 
+                      homework.homework_text : 
+                        <AddButton 
+                          onClick={() => {
+                            setEditingHomeworkId(homework.lesson_id);
+                            setEditText('');
+                          }}
+                          text="Добавить ДЗ"
+                          title="Добавить домашнее задание"
+                          showText={true}
+                        />}
                     </div>
                   )}
                 </div>
@@ -374,14 +385,15 @@ const TeacherHomework = () => {
                     </>
                   ) : (
                     <>
-                      <EditButton onClick={() => startEdit(homework)} />
                       {hasHomework && (
-                        <DeleteButton 
-                          className={styles.deleteBtn}
-                          onClick={() => handleDeleteHomework(homework.homework_id)}
-                          title="Удалить"
-                        />
-      
+                        <>
+                          <EditButton onClick={() => startEdit(homework)} />
+                          <DeleteButton 
+                            className={styles.deleteBtn}
+                            onClick={() => handleDeleteHomework(homework.homework_id)}
+                            title="Удалить"
+                          />  
+                        </>
                       )}
                     </>
                   )}

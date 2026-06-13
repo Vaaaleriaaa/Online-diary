@@ -1,0 +1,322 @@
+/* src/components/admin/modals/TeacherModals.module.css */
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal {
+  background: white;
+  border-radius: 0.8rem;
+  width: 90%;
+  max-width: 50rem;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.1);
+  animation: slideIn 0.2s ease;
+  overflow: hidden;
+}
+
+/* Стили для заголовка с градиентом */
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 2.4rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.modalHeader h2 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+/* Стили для кнопки закрытия */
+.closeBtn {
+  background: none;
+  border: none;
+  font-size: 2.8rem;
+  cursor: pointer;
+  color: white;
+  padding: 0;
+  width: 3.2rem;
+  height: 3.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.6rem;
+  transition: all 0.2s;
+}
+
+.closeBtn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Обычный заголовок (без градиента) */
+.modal h2 {
+  padding: 2rem 2rem 0 2rem;
+  margin: 0;
+  font-size: 2rem;
+  color: #333;
+}
+
+.modalForm {
+  padding: 2rem;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.formGroup {
+  margin-bottom: 2rem;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 0.8rem;
+  font-weight: 500;
+  color: #555;
+  font-size: 1.4rem;
+}
+
+/* Стили для полей ввода */
+.formGroup input,
+.formGroup select {
+  width: 100%;
+  padding: 1rem;
+  border: 0.1rem solid #ddd;
+  border-radius: 0.6rem;
+  font-size: 1.4rem;
+  box-sizing: border-box;
+  transition: all 0.2s;
+}
+
+.formGroup input:focus,
+.formGroup select:focus {
+  outline: none;
+  border-color: #2196F3;
+  box-shadow: 0 0 0 0.3rem rgba(33, 150, 243, 0.1);
+}
+
+/* Стили для disabled полей */
+.formGroup input:disabled,
+.formGroup select:disabled {
+  background-color: #f5f5f5;
+  color: #666;
+  cursor: not-allowed;
+}
+
+/* Стили для полей с ошибкой */
+.inputError {
+  border-color: #dc3545 !important;
+}
+
+.inputError:focus {
+  border-color: #dc3545 !important;
+  box-shadow: 0 0 0 0.3rem rgba(220, 53, 69, 0.1) !important;
+}
+
+/* Подсказки */
+.hint {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 1.2rem;
+  color: #999;
+}
+
+.errorHint {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 1.2rem;
+  color: #dc3545;
+}
+
+/* Действия модального окна */
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 2rem;
+  border-top: 0.1rem solid #e0e0e0;
+}
+
+/* ✅ Кнопка отмены */
+.cancelModalBtn {
+  padding: 0.8rem 2rem;
+  background: #f5f5f5;
+  border: 0.1rem solid #ddd;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  font-size: 1.4rem;
+  color: #666;
+  transition: all 0.2s;
+}
+
+.cancelModalBtn:hover:not(:disabled) {
+  background: #e0e0e0;
+  border-color: #ccc;
+}
+
+/* ✅ Кнопка сохранения (синяя, без градиента) */
+.saveModalBtn {
+  padding: 0.8rem 2rem;
+  background: #2196F3;
+  border: none;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  font-size: 1.4rem;
+  color: white;
+  transition: all 0.2s;
+}
+
+.saveModalBtn:hover:not(:disabled) {
+  background: #1976D2;
+  transform: translateY(-0.1rem);
+  box-shadow: 0 0.2rem 0.8rem rgba(33, 150, 243, 0.4);
+}
+
+/* ✅ Кнопка закрытия (синяя) */
+.closeModalBtn {
+  padding: 0.8rem 1.6rem;
+  background: #2196F3;
+  border: none;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  font-size: 1.4rem;
+  color: white;
+  transition: all 0.2s;
+}
+
+.closeModalBtn:hover {
+  background: #1976D2;
+}
+
+.saveModalBtn:disabled,
+.cancelModalBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Стили для окна с паролем */
+.successTitle {
+  color: #4CAF50;
+  text-align: center;
+  padding: 2rem 2rem 0 2rem;
+  font-size: 1.8rem;
+}
+
+.passwordSection {
+  padding: 2rem;
+}
+
+.passwordLabel {
+  font-size: 1.4rem;
+  font-weight: 500;
+  margin-bottom: 0.8rem;
+  color: #555;
+}
+
+.passwordBox,
+.infoBox {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  background: #f5f5f5;
+  padding: 1rem;
+  border-radius: 0.6rem;
+  margin-bottom: 1.5rem;
+  border: 0.1rem solid #e0e0e0;
+}
+
+.passwordCode,
+.infoCode {
+  flex: 1;
+  font-size: 1.6rem;
+  font-weight: bold;
+  font-family: monospace;
+  color: #333;
+  word-break: break-all;
+}
+
+.copyBtn {
+  padding: 0.5rem 1rem;
+  background: #2196F3;
+  border: none;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  color: white;
+  font-size: 1.2rem;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.copyBtn:hover {
+  background: #1976D2;
+  transform: scale(1.02);
+}
+
+.passwordHint {
+  font-size: 1.2rem;
+  color: #666;
+  margin-top: 1rem;
+  line-height: 1.4;
+}
+
+/* Анимации */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-2rem);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .modal {
+    width: 95%;
+  }
+  
+  .modal h2,
+  .modalHeader h2 {
+    font-size: 1.8rem;
+  }
+  
+  .modalForm {
+    padding: 1.5rem;
+  }
+  
+  .formGroup {
+    margin-bottom: 1.5rem;
+  }
+  
+  .cancelModalBtn,
+  .saveModalBtn,
+  .closeModalBtn {
+    padding: 0.6rem 1.6rem;
+    font-size: 1.3rem;
+  }
+}

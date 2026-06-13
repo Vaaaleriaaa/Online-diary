@@ -1,7 +1,5 @@
-/* src/components/UI/ActionButtons.module.css */
-
 /* Общие стили для всех кнопок действий */
-.editBtn, .deleteBtn, .saveBtn, .cancelBtn, .addBtn {
+.editBtn, .deleteBtn, .saveBtn, .cancelBtn {
   width: 3.2rem;
   height: 3.2rem;
   border: none;
@@ -14,53 +12,104 @@
   justify-content: center;
 }
 
-/* Стили для кнопки добавления с текстом */
-.addBtn.withText {
-  width: auto;
-  padding: 0 1.6rem;
-  gap: 0.8rem;
-  background: #4a90e2;
-  color: white;
-}
-
-.addBtn.withText:hover {
-  background: #357abd;
-  transform: translateY(-0.1rem);
-}
-
-/* Стили для кнопки добавления без текста (только иконка) */
+/* Базовые стили для AddButton */
 .addBtn {
-  background: #4a90e2;
+  background: none;
+  border: 0.1rem dashed #000000;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin: 0;
+  padding: 0;
+  display: flex; /* ✅ меняем с inline-flex на flex */
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  outline: none;
+  background-color: transparent;
+  box-sizing: border-box;
+  line-height: 0; /* ✅ убираем межстрочный интервал */
 }
 
-.addBtn:hover {
-  background: #357abd;
-  transform: scale(1.05);
+/* Убираем стандартные стили кнопки */
+.addBtn::-moz-focus-inner {
+  border: 0;
+  padding: 0;
 }
 
-.buttonText {
-  font-size: 1.4rem;
-  font-weight: 500;
-  white-space: nowrap;
+/* Компактная версия (только иконка) */
+.addBtn:not(.withText) {
+  width: 3.2rem;
+  height: 3.2rem;
+  min-width: 3.2rem;
+  min-height: 3.2rem;
+  padding: 0;
 }
 
-.icon {
-  width: 1.8rem;
-  height: 1.8rem;
-  display: block;
+/* Версия с текстом */
+.addBtn.withText {
+  padding: 0.25rem 1rem;
+  gap: 0.5rem;
+  width: auto;
+  height: auto;
+  display: inline-flex; /* ✅ для версии с текстом оставляем inline-flex */
+  align-items: center;
+  justify-content: center;
+}
+
+/* Иконка */
+.addBtn .icon {
+  width: 1.6rem;
+  height: 1.6rem;
+  display: block; /* ✅ меняем с flex на block */
+  flex-shrink: 0;
   pointer-events: none;
+  margin: 0; /* ✅ убираем любые отступы */
+  padding: 0; /* ✅ убираем любые отступы */
 }
 
-/* Цвет фона кнопок */
+/* Текст */
+.addBtn .buttonText {
+  font-size: 1.6rem;
+  font-weight: normal;
+  color: #000000;
+  white-space: nowrap;
+  line-height: 1;
+  display: inline-block;
+}
+
+/* Эффекты при наведении */
+.addBtn:hover {
+  background: #f1f5f9;
+  border-color: #3b82f6;
+}
+
+.addBtn:hover .buttonText {
+  color: #3b82f6;
+}
+
+.addBtn:hover .icon {
+  filter: brightness(0) saturate(100%) invert(44%) sepia(91%) saturate(1000%) hue-rotate(200deg) brightness(95%) contrast(90%);
+}
+
+.addBtn img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Стили для кнопки редактирования */
 .editBtn {
   background: #e2e8f0;
 }
 
 .editBtn:hover {
-  background: #fecaca;
+  background: #98D8C8;
   transform: scale(1.05);
 }
 
+/* Стили для кнопки удаления */
 .deleteBtn {
   background: #fee2e2;
   color: #dc2626;
@@ -71,6 +120,7 @@
   transform: scale(1.05);
 }
 
+/* Стили для кнопки сохранения */
 .saveBtn {
   background: #20f6af;
 }
@@ -80,6 +130,7 @@
   transform: scale(1.05);
 }
 
+/* Стили для кнопки отмены */
 .cancelBtn {
   background: #f86262;
   color: white;
@@ -90,7 +141,26 @@
   transform: scale(1.05);
 }
 
-/* Кнопки навигации */
+.icon {
+  width: 1.8rem;
+  height: 1.8rem;
+  display: block;
+  pointer-events: none;
+}
+
+/* Стили для иконок в старых кнопках (не AddButton) */
+.editBtn .icon,
+.deleteBtn .icon,
+.saveBtn .icon,
+.cancelBtn .icon {
+  filter: none;
+}
+
+/* Специальный стиль для иконки удаления при наведении */
+.deleteBtn:hover .icon {
+  filter: brightness(0) saturate(100%) invert(27%) sepia(89%) saturate(2550%) hue-rotate(346deg) brightness(92%) contrast(88%);
+}
+
 .nextlBtn, .prevBtn {
   display: flex;
   padding: 1rem 2rem;
@@ -110,4 +180,26 @@
 
 .nextlBtn:hover, .prevBtn:hover {
   background: #e2e8f0;
+}
+
+@media (max-width: 768px) {
+  .addBtn {
+    padding: 0.2rem 0.8rem;
+    font-size: 1.4rem;
+  }
+  
+  .addBtn .icon {
+    width: 1.4rem;
+    height: 1.4rem;
+  }
+  
+  .addBtn .buttonText {
+    font-size: 1.4rem;
+  }
+  
+  .addBtn:not(.withText) {
+    padding: 0.4rem;
+    width: 2.8rem;
+    height: 2.8rem;
+  }
 }

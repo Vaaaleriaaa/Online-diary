@@ -4,6 +4,7 @@ import AdminLayout from '../layouts/AdminLayout';
 import AdminSchedule from '../pages/admin/AdminSchedule';
 import Profile from '../pages/Profile';
 import ClassManagement from '../pages/admin/ClassManagement';
+import TeachersManagement from '../pages/admin/TeachersManagement';
 
 const AdminRoutes = () => {
   return (
@@ -11,10 +12,8 @@ const AdminRoutes = () => {
       <Route element={<AdminLayout />}>
         <Route index element={<AdminSchedule />} />
         <Route path="schedule" element={<AdminSchedule />} />
-        <Route path="lesson-slots" element={<div>Ячейки расписания</div>} />
         <Route path="students" element={<ClassManagement />} />
-        <Route path="load" element={<div>Нагрузка</div>} />
-        <Route path="users" element={<div>Пользователи</div>} />
+        <Route path="teachers" element={<TeachersManagement />} />
         <Route path="profile" element={<Profile />} />
       </Route>
     </Routes>

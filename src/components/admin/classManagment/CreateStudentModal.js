@@ -1,19 +1,20 @@
-// src/components/admin/CreateStudentModal.js
 import React, { useState } from 'react';
-import Select from '../UI/Select';
-import AddButton from '../UI/AddButton';
-import styles from './CreateStudentModal.module.css';
+import styles from '../modals/TeacherModals.module.css';
+import Select from '../../UI/Select';
+import Notification from '../../UI/Notification';
 
 const CreateStudentModal = ({ isOpen, onClose, onSuccess, classOptions }) => {
-  const [step, setStep] = useState('form'); // 'form' или 'password'
-  const [newStudent, setNewStudent] = useState({
+  const [formData, setFormData] = useState({
     last_name: '',
     first_name: '',
     patronymic: '',
     class_id: ''
   });
-  const [loading, setLoading] = useState(false);
+  const [createdUser, setCreatedUser] = useState(null);
   const [generatedPassword, setGeneratedPassword] = useState('');
+  const [step, setStep] = useState('form');
+  const [loading, setLoading] = useState(false);
+  const [notification, setNotification] = useState({ message: '', type: 'success' });
   const token = localStorage.getItem('token');
 
   const modalClassOptions = [
@@ -21,7 +22,13 @@ const CreateStudentModal = ({ isOpen, onClose, onSuccess, classOptions }) => {
     ...classOptions
   ];
 
-  // Генерация случайного пароля из 8 символов
+  const showNotification = (message, type = 'success') => {
+    setNotification({ message, type });
+    setTimeout(() => {
+      setNotification({ message: '', type: 'success' });
+    }, 3000);
+  };
+
   const generatePassword = () => {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let password = '';
@@ -31,19 +38,20 @@ const CreateStudentModal = ({ isOpen, onClose, onSuccess, classOptions }) => {
     return password;
   };
 
-  // Копирование пароля в буфер обмена
   const copyToClipboard = async (text) => {
     try {
       await navigator.clipboard.writeText(text);
-      alert('Пароль скопирован в буфер обмена');
+      showNotification('Скопировано в буфер обмена', 'success');
     } catch (err) {
       console.error('Ошибка копирования:', err);
+      showNotification('Ошибка копирования', 'error');
     }
   };
 
   const handleCreate = async () => {
-    if (!newStudent.last_name || !newStudent.first_name) {
-      alert('Заполните фамилию и имя');
+    // ✅ Проверяем все поля (фамилия, имя, отчество - обязательны)
+    if (!formData.last_name || !formData.first_name || !formData.patronymic) {
+      showNotification('Заполните все поля: фамилию, имя и отчество', 'error');
       return;
     }
     
@@ -59,9 +67,9 @@ const CreateStudentModal = ({ isOpen, onClose, onSuccess, classOptions }) => {
         },
         body: JSON.stringify({
           password: password,
-          firstName: newStudent.first_name,
-          lastName: newStudent.last_name,
-          patronymic: newStudent.patronymic || '',
+          firstName: formData.first_name,
+          lastName: formData.last_name,
+          patronymic: formData.patronymic,
           role: 'student',
         }),
       });
@@ -71,36 +79,38 @@ const CreateStudentModal = ({ isOpen, onClose, onSuccess, classOptions }) => {
       if (data.success && data.data) {
         const userId = data.data.user_id;
         
-      // 2. Привязываем ученика к классу (если выбран класс)
-      if (newStudent.class_id) {
-        const classResponse = await fetch('http://localhost:3000/student', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ 
-            studentId: userId.toString(), // Приводим к строке, как требует схема
-            classId: parseInt(newStudent.class_id) 
-          }),
-        });
-        
-        const classData = await classResponse.json();
-        
-        if (!classData.success) {
-          console.error('Ошибка привязки к классу:', classData.error);
-          alert('Ученик создан, но не удалось привязать к классу');
+        // Привязываем ученика к классу (если выбран класс)
+        if (formData.class_id) {
+          const classResponse = await fetch('http://localhost:3000/student', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 
+              studentId: userId.toString(),
+              classId: parseInt(formData.class_id) 
+            }),
+          });
+          
+          const classData = await classResponse.json();
+          
+          if (!classData.success) {
+            console.error('Ошибка привязки к классу:', classData.error);
+            showNotification('Ученик создан, но не удалось привязать к классу', 'warning');
+          }
         }
-      }
         
+        setCreatedUser(data.data);
         setGeneratedPassword(password);
         setStep('password');
+        onSuccess();
       } else {
-        alert(data.error || 'Ошибка создания');
+        showNotification(data.error || 'Ошибка создания', 'error');
       }
     } catch (err) {
       console.error('Ошибка создания:', err);
-      alert('Ошибка соединения');
+      showNotification('Ошибка соединения', 'error');
     } finally {
       setLoading(false);
     }
@@ -108,16 +118,18 @@ const CreateStudentModal = ({ isOpen, onClose, onSuccess, classOptions }) => {
 
   const handleClose = () => {
     if (step === 'password') {
-        onSuccess(); // Обновляем список ТОЛЬКО при закрытии окна с паролем
+      onSuccess();
     }
     setStep('form');
+    setCreatedUser(null);
     setGeneratedPassword('');
-    setNewStudent({
+    setFormData({
       last_name: '',
       first_name: '',
       patronymic: '',
       class_id: ''
     });
+    setNotification({ message: '', type: 'success' });
     onClose();
   };
 
@@ -127,27 +139,26 @@ const CreateStudentModal = ({ isOpen, onClose, onSuccess, classOptions }) => {
     <div className={styles.modalOverlay} onClick={handleClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         {step === 'form' ? (
-          // Форма создания ученика
           <>
             <h2>Создание ученика</h2>
             
             <div className={styles.modalForm}>
               <div className={styles.formGroup}>
-                <label>Фамилия *</label>
+                <label>Фамилия</label>
                 <input
                   type="text"
-                  value={newStudent.last_name}
-                  onChange={(e) => setNewStudent({ ...newStudent, last_name: e.target.value })}
+                  value={formData.last_name}
+                  onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
                   placeholder="Введите фамилию"
                 />
               </div>
               
               <div className={styles.formGroup}>
-                <label>Имя *</label>
+                <label>Имя</label>
                 <input
                   type="text"
-                  value={newStudent.first_name}
-                  onChange={(e) => setNewStudent({ ...newStudent, first_name: e.target.value })}
+                  value={formData.first_name}
+                  onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
                   placeholder="Введите имя"
                 />
               </div>
@@ -156,17 +167,17 @@ const CreateStudentModal = ({ isOpen, onClose, onSuccess, classOptions }) => {
                 <label>Отчество</label>
                 <input
                   type="text"
-                  value={newStudent.patronymic}
-                  onChange={(e) => setNewStudent({ ...newStudent, patronymic: e.target.value })}
-                  placeholder="Введите отчество (необязательно)"
+                  value={formData.patronymic}
+                  onChange={(e) => setFormData({ ...formData, patronymic: e.target.value })}
+                  placeholder="Введите отчество"
                 />
               </div>
               
               <div className={styles.formGroup}>
                 <label>Класс</label>
                 <Select
-                  value={newStudent.class_id}
-                  onChange={(e) => setNewStudent({ ...newStudent, class_id: e.target.value })}
+                  value={formData.class_id}
+                  onChange={(e) => setFormData({ ...formData, class_id: e.target.value })}
                   options={modalClassOptions}
                   placeholder="Выберите класс (необязательно)"
                 />
@@ -179,34 +190,30 @@ const CreateStudentModal = ({ isOpen, onClose, onSuccess, classOptions }) => {
                 >
                   Отмена
                 </button>
-                <AddButton 
+                <button 
+                  className={styles.saveModalBtn} 
                   onClick={handleCreate}
-                  text={loading ? 'Создание...' : 'Создать'}
-                  showText={true}
-                />
+                  disabled={loading}
+                >
+                  {loading ? 'Создание...' : 'Создать'}
+                </button>
               </div>
             </div>
           </>
         ) : (
-          // Окно с сгенерированным паролем
           <>
-            <h2 className={styles.successTitle}>✓ Ученик успешно создан!</h2>
+            <h2 className={styles.successTitle}>Ученик успешно создан!</h2>
             
             <div className={styles.passwordSection}>
-              <p className={styles.passwordLabel}>Сгенерированный пароль для входа:</p>
+              <p className={styles.passwordLabel}>Логин для входа:</p>
+              <div className={styles.infoBox}>
+                <code className={styles.infoCode}>{createdUser?.login}</code>
+              </div>
+              
+              <p className={styles.passwordLabel}>Сгенерированный пароль:</p>
               <div className={styles.passwordBox}>
                 <code className={styles.passwordCode}>{generatedPassword}</code>
-                <button 
-                  className={styles.copyBtn}
-                  onClick={() => copyToClipboard(generatedPassword)}
-                >
-                  📋 Копировать
-                </button>
               </div>
-              <p className={styles.passwordHint}>
-                Сохраните этот пароль. Ученик сможет изменить его после первого входа 
-                в разделе "Профиль".
-              </p>
             </div>
             
             <div className={styles.modalActions}>
@@ -220,6 +227,12 @@ const CreateStudentModal = ({ isOpen, onClose, onSuccess, classOptions }) => {
           </>
         )}
       </div>
+      
+      <Notification 
+        message={notification.message} 
+        type={notification.type} 
+        onClose={() => setNotification({ message: '', type: 'success' })}
+      />
     </div>
   );
 };

@@ -1,0 +1,194 @@
+.threeColumns {
+  display: flex;
+  gap: 2%;
+  width:100%
+}
+
+.grade-column{
+  width: 12%;
+}
+
+.class-column {
+  width: 25%;
+}
+
+.student-column {
+  width: 61%;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.8rem;
+  box-shadow: 0 0.1rem 0.3rem rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.column:hover {
+  box-shadow: 0 0.2rem 0.8rem rgba(0, 0, 0, 0.15);
+}
+
+.columnHeader {
+  padding: 1.6rem 2rem;
+  border-bottom: 0.1rem solid #e8e8e8;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #95BFE9;
+  color: #000000;
+}
+
+.columnHeader h3 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.05rem;
+}
+
+.columnContent {
+  padding: 1.2rem;
+}
+
+/* Стили для элементов годов обучения */
+.gradeItem {
+  padding: 1.2rem 1.6rem;
+  margin-bottom: 0.8rem;
+  cursor: pointer;
+  border-radius: 0.6rem;
+  transition: all 0.2s;
+  background: #f8f9fa;
+  border: 1px solid #e8e8e8;
+  font-weight: 500;
+  text-align: center;
+}
+
+.gradeItem:hover {
+  background: #e3f2fd;
+  border-color: #2196f3;
+  transform: translateX(0.5rem);
+}
+
+.gradeItem.active {
+  background: #458fd8;
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+/* Стили для элементов классов */
+.classItem {
+  padding: 1rem 1.2rem;
+  margin-bottom: 0.8rem;
+  border-radius: 0.6rem;
+  transition: all 0.2s;
+  background: #f8f9fa;
+  border: 1px solid #e8e8e8;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.classItem:hover {
+  background: #e3f2fd;
+  border-color: #2196f3;
+  transform: translateX(0.5rem);
+}
+
+.classItem.active {
+  background: #458fd8;
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 2px 8px rgba(255, 152, 0, 0.3);
+}
+
+.className {
+  flex: 1;
+  cursor: pointer;
+  font-size: 1.6rem;
+  font-weight: 500;
+  padding: 0.4rem 0;
+}
+
+.classActions {
+  display: flex;
+  flex-direction: row;;
+  gap: 0.6rem;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.classItem:hover .classActions {
+  opacity: 1;
+}
+
+/* Стили для таблицы учеников */
+.studentsTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.studentsTable th,
+.studentsTable td {
+  padding: 1rem 1.2rem;
+  text-align: left;
+  border-bottom: 0.1rem solid #f0f0f0;
+}
+
+.studentsTable th {
+  background: #fafafa;
+  font-weight: 600;
+  color: #555;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  font-size: 1.6rem;
+}
+
+.studentsTable tbody tr:hover {
+  background: #f9f9f9;
+}
+
+/* Стили для полей ввода */
+.editFields {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.input {
+  padding: 0.6rem 1rems;
+  border: 1px solid #ddd;
+  border-radius: 0.4rem;
+  font-size: 1.6rem;
+  transition: all 0.2s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+}
+
+.actionButtons {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row; /* ✅ гарантируем строку */
+  flex-wrap: nowrap; /* ✅ запрещаем перенос */
+}
+
+/* Стили для пустых сообщений */
+.emptyMessage {
+  text-align: center;
+  padding: 6rem 2rem;
+  color: #999;
+  font-size: 1.4rem;
+}
+
+.loading {
+  text-align: center;
+  padding: 6rem 2rem;
+  color: #666;
+  font-size: 1.4rem;
+}

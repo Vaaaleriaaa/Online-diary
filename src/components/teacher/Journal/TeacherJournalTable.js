@@ -83,7 +83,7 @@ const TeacherJournalTable = ({
 
   // Сохранение значения
   const saveValue = async (studentId, lessonId, value) => {
-    const trimmedValue = value.trim();
+    const trimmedValue = value ? value.trim() : '';
     
     if (trimmedValue === '') {
       // Удаляем значение
@@ -113,7 +113,7 @@ const TeacherJournalTable = ({
     if (!editMode) return;
     const currentValue = getRawValue(studentId, lessonId);
     setEditingCell({ studentId, lessonId });
-    setEditValue(currentValue);
+    setEditValue(currentValue || '');
   };
 
   const handleBlur = async () => {
@@ -233,6 +233,7 @@ const TeacherJournalTable = ({
                     return (
                       <td key={lesson.lessonId} className={styles.editingCell}>
                         <input
+                          ref={inputRef}
                           type="text"
                           className={styles.cellInput}
                           value={editValue}

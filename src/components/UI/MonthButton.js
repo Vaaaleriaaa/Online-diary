@@ -1,4 +1,3 @@
-// src/components/UI/MonthButton.js
 import React from 'react';
 import styles from './MonthButton.module.css';
 

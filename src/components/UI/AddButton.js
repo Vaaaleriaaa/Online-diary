@@ -1,4 +1,3 @@
-// src/components/UI/AddButton.js
 import React from 'react';
 import addIcon from '../../images/add.svg';
 import styles from './ActionButtons.module.css';

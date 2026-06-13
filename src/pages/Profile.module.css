@@ -1,20 +1,10 @@
-/* src/pages/Profile.module.css */
 .profile {
-  min-height: calc(100vh - 8rem);
-  background: #f5f7fa;
-  padding: 3rem;
+  font-size: 1.6rem;
   display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.card {
-  max-width: 50rem;
+  flex-direction: column;
+  margin: 5rem 5rem 7rem 5rem;
+  gap: 2rem;
   width: 100%;
-  background: white;
-  border-radius: 1.6rem;
-  box-shadow: 0 0.4rem 1.6rem rgba(0, 0, 0, 0.1);
-  padding: 3rem;
 }
 
 h1 {
@@ -62,6 +52,7 @@ h2 {
 }
 
 .formGroup {
+  width: 30rem;
   margin-bottom: 1.5rem;
 }
 
@@ -118,7 +109,7 @@ h2 {
 }
 
 .submitBtn {
-  width: 100%;
+  width: 30rem;
   padding: 1.2rem;
   background: #4a90e2;
   color: white;
@@ -144,24 +135,4 @@ h2 {
   padding: 6rem;
   font-size: 1.6rem;
   color: #666;
-}
-
-/* Адаптивность */
-@media (max-width: 48rem) {
-  .profile {
-    padding: 1.5rem;
-  }
-  
-  .card {
-    padding: 2rem;
-  }
-  
-  .infoRow {
-    flex-direction: column;
-  }
-  
-  .label {
-    width: auto;
-    margin-bottom: 0.4rem;
-  }
 }

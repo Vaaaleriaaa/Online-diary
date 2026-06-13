@@ -1,0 +1,415 @@
+/* src/pages/admin/tabs/StudentsListTab.module.css */
+
+/* Основной контейнер таблицы */
+.tableWrapper {
+  flex: 1;
+  background: white;
+  border-radius: 0.8rem;
+  box-shadow: 0 0.2rem 0.8rem rgba(0, 0, 0, 0.08);
+  overflow: visible;
+  position: relative;
+}
+
+/* Стили таблицы */
+.studentsTable {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+/* Заголовки таблицы */
+.studentsTable th {
+  padding: 1.6rem 1.6rem;
+  text-align: left;
+  background: #95BFE9;
+  color: #000000;
+  font-weight: 700;
+  font-size: 1.6rem;
+  letter-spacing: 0.05rem;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.studentsTable th:first-child {
+  border-top-left-radius: 0.8rem;
+}
+
+.studentsTable th:last-child {
+  border-top-right-radius: 0.8rem;
+}
+
+/* Ячейки таблицы */
+.studentsTable td {
+  padding: 1.4rem 1.6rem;
+  text-align: left;
+  border-bottom: 0.1rem solid #f0f0f0;
+  vertical-align: middle;
+  white-space: normal;
+  word-break: break-word;
+}
+
+/* Строки таблицы */
+.studentsTable tbody tr {
+  transition: all 0.2s ease;
+}
+
+.studentsTable tbody tr:hover {
+  background: #f8f9ff;
+}
+
+/* Номер строки */
+.rowNumber {
+  width: 7rem;
+  text-align: center;
+  font-weight: 700;
+  color: #458fd8;
+  font-size: 1.6rem;
+}
+
+/* Колонка ФИО */
+.fullName {
+  min-width: 25rem;
+  font-weight: 500;
+  color: #333;
+  font-size: 1.6rem;
+}
+
+/* Колонка класса */
+.class {
+  width: 13rem;
+  color: #666;
+  font-size: 1.6rem;
+}
+
+/* Колонка действий */
+.actions {
+  width: 14rem;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Контейнер для кнопок действий - кнопки в одну строку */
+.actionButtons {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+/* Стили для кнопки прикрепления (скрепка) */
+.assignBtn {
+  width: 3.2rem;
+  height: 3.2rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 1.9rem;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e2e8f0;
+  color: #333;
+}
+
+.assignBtn:hover {
+  background: #8EECF5;
+  transform: scale(1.05);
+}
+
+.assignBtn .icon {
+  width: 1.8rem;
+  height: 1.8rem;
+  display: block;
+  pointer-events: none;
+}
+
+/* Стили для полей редактирования */
+.editFields {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.input {
+  padding: 0.8rem 1.2rem;
+  border: 0.1rem solid #ddd;
+  border-radius: 0.6rem;
+  font-size: 1.6rem;
+  transition: all 0.2s ease;
+  background: white;
+  width: 12rem;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #95BFE9;
+  box-shadow: 0 0 0 0.3rem rgba(149, 191, 233, 0.1);
+}
+
+.input::placeholder {
+  color: #bbb;
+  font-size: 1.2rem;
+}
+
+/* Стили для пустого состояния */
+.empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #999;
+  font-size: 1.6rem;
+  background: white;
+  border-radius: 0.8rem;
+  width: 100%;
+}
+
+/* Стили для загрузки */
+.loading {
+  text-align: center;
+  padding: 8rem 2rem;
+  color: #666;
+  font-size: 1.6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.loading::before {
+  content: '';
+  width: 2rem;
+  height: 2rem;
+  border: 0.2rem solid #95BFE9;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* Анимация загрузки */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Модальное окно выбора класса */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1100;
+  animation: fadeIn 0.2s ease;
+}
+
+.modalContent {
+  background: white;
+  border-radius: 0.8rem;
+  padding: 2.4rem;
+  width: 90%;
+  max-width: 40rem;
+  box-shadow: 0 0.4rem 2rem rgba(0, 0, 0, 0.15);
+  animation: slideIn 0.2s ease;
+}
+
+.modalContent h3 {
+  margin: 0 0 2rem 0;
+  font-size: 1.8rem;
+  color: #333;
+  text-align: center;
+  font-weight: 600;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.2rem;
+  margin-top: 2.4rem;
+}
+
+/* Кнопки модального окна */
+.cancelBtn {
+  padding: 0.8rem 2rem;
+  background: #f5f5f5;
+  border: 0.1rem solid #ddd;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  font-size: 1.4rem;
+  color: #666;
+  transition: all 0.2s ease;
+}
+
+.cancelBtn:hover {
+  background: #e0e0e0;
+  border-color: #ccc;
+}
+
+.confirmBtn {
+  padding: 0.8rem 2rem;
+  background: #95BFE9;
+  border: none;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  font-size: 1.6rem;
+  color: #000000;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.confirmBtn:hover:not(:disabled) {
+  background: #458fd8;
+  transform: translateY(-0.1rem);
+  box-shadow: 0 0.2rem 0.8rem rgba(69, 143, 216, 0.4);
+}
+
+.confirmBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Стили для выпадающего списка в модальном окне */
+.modalContent select {
+  width: 100%;
+  padding: 1rem;
+  border: 0.1rem solid #ddd;
+  border-radius: 0.6rem;
+  font-size: 1.6rem;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modalContent select:focus {
+  outline: none;
+  border-color: #95BFE9;
+  box-shadow: 0 0 0 0.3rem rgba(149, 191, 233, 0.1);
+}
+
+/* Общие стили для иконок */
+.icon {
+  width: 1.8rem;
+  height: 1.8rem;
+  display: block;
+  pointer-events: none;
+}
+
+/* Анимации */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-2rem);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Адаптивность для планшетов */
+@media (max-width: 1024px) {
+  .studentsTable th,
+  .studentsTable td {
+    padding: 1.2rem 1.2rem;
+  }
+  
+  .fullName {
+    min-width: 20rem;
+  }
+  
+  .input {
+    width: 10rem;
+    padding: 0.6rem 0.8rem;
+  }
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+  .studentsTable th,
+  .studentsTable td {
+    padding: 1rem 0.8rem;
+  }
+  
+  .rowNumber {
+    width: 5rem;
+  }
+  
+  .fullName {
+    min-width: 15rem;
+  }
+  
+  .class {
+    width: 10rem;
+  }
+  
+  .actions {
+    width: 12rem;
+  }
+  
+  .editFields {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  
+  .input {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+  }
+  
+  .actionButtons {
+    gap: 0.5rem;
+  }
+  
+  .modalContent {
+    padding: 2rem;
+    width: 95%;
+  }
+  
+  .modalContent h3 {
+    font-size: 1.6rem;
+    margin-bottom: 1.6rem;
+  }
+  
+  .cancelBtn,
+  .confirmBtn {
+    padding: 0.6rem 1.6rem;
+    font-size: 1.3rem;
+  }
+  
+  .empty {
+    padding: 6rem 2rem;
+    font-size: 1.4rem;
+  }
+}
+
+/* Стили для очень маленьких экранов */
+@media (max-width: 480px) {
+  .studentsTable th,
+  .studentsTable td {
+    padding: 0.8rem 0.6rem;
+  }
+  
+  .rowNumber {
+    width: 4rem;
+  }
+  
+  .fullName {
+    min-width: 12rem;
+  }
+}

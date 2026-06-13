@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import Select from '../UI/Select';
-import Notification from '../UI/Notification';
-import styles from './CreateClassModal.module.css';
+import styles from '../modals/TeacherModals.module.css';
+import { validateGradeLetter } from '../../../utils/validation';
+import Notification from '../../UI/Notification';
+import Select from '../../UI/Select';
 
 const CreateClassModal = ({ isOpen, onClose, onSuccess }) => {
   const [newClass, setNewClass] = useState({ grade_year: '', grade_letter: '' });
   const [loading, setLoading] = useState(false);
   const [notification, setNotification] = useState({ message: '', type: 'success' });
+  const [letterError, setLetterError] = useState('');
   const token = localStorage.getItem('token');
 
   const gradeOptions = [...Array(11)].map((_, i) => ({ 
@@ -21,9 +23,26 @@ const CreateClassModal = ({ isOpen, onClose, onSuccess }) => {
     }, 3000);
   };
 
+  const handleLetterChange = (value) => {
+    const validation = validateGradeLetter(value);
+    if (!validation.isValid && value !== '') {
+      setLetterError(validation.message);
+    } else {
+      setLetterError('');
+    }
+    setNewClass({ ...newClass, grade_letter: validation.isValid ? validation.value : value.toUpperCase() });
+  };
+
   const handleCreate = async () => {
-    if (!newClass.grade_year || !newClass.grade_letter) {
-      showNotification('Заполните год и букву класса', 'error');
+    // Валидация буквы
+    const letterValidation = validateGradeLetter(newClass.grade_letter);
+    if (!letterValidation.isValid) {
+      showNotification(letterValidation.message, 'error');
+      return;
+    }
+
+    if (!newClass.grade_year) {
+      showNotification('Выберите год обучения', 'error');
       return;
     }
     
@@ -37,7 +56,7 @@ const CreateClassModal = ({ isOpen, onClose, onSuccess }) => {
         },
         body: JSON.stringify({
           grade_year: parseInt(newClass.grade_year),
-          grade_letter: newClass.grade_letter.toUpperCase(),
+          grade_letter: letterValidation.value,
         }),
       });
       
@@ -60,6 +79,7 @@ const CreateClassModal = ({ isOpen, onClose, onSuccess }) => {
 
   const handleClose = () => {
     setNewClass({ grade_year: '', grade_letter: '' });
+    setLetterError('');
     setNotification({ message: '', type: 'success' });
     onClose();
   };
@@ -79,7 +99,7 @@ const CreateClassModal = ({ isOpen, onClose, onSuccess }) => {
         
         <div className={styles.modalForm}>
           <div className={styles.formGroup}>
-            <label>Год обучения *</label>
+            <label>Год обучения</label>
             <Select
               value={newClass.grade_year}
               onChange={(e) => setNewClass({ ...newClass, grade_year: e.target.value })}
@@ -89,14 +109,16 @@ const CreateClassModal = ({ isOpen, onClose, onSuccess }) => {
           </div>
           
           <div className={styles.formGroup}>
-            <label>Буква класса *</label>
+            <label>Буква класса</label>
             <input
               type="text"
-              maxLength="2"
+              maxLength="1"
               value={newClass.grade_letter}
-              onChange={(e) => setNewClass({ ...newClass, grade_letter: e.target.value.toUpperCase() })}
+              onChange={(e) => handleLetterChange(e.target.value)}
               placeholder="Например: А, Б, В, Г"
+              className={`${styles.input} ${letterError ? styles.inputError : ''}`}
             />
+            {letterError && <small className={styles.errorHint}>{letterError}</small>}
           </div>
           
           <div className={styles.modalActions}>

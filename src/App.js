@@ -6,8 +6,6 @@ import Login from './pages/Login';
 import AdminRoutes from './routes/AdminRoutes';
 import StudentRoutes from './routes/StudentRoutes';
 import TeacherRoutes from './routes/TeacherRoutes';
-import PlayGround from './pages/PlayGround';
-import Profile from './pages/Profile';
 
 const RoleRedirect = () => {
   const { user, loading } = useAuth();
@@ -72,7 +70,6 @@ function App() {
           
           <Route path="/" element={<Navigate to="/schedule" replace />} />
           <Route path="*" element={<Navigate to="/schedule" replace />} />
-          <Route path='/play-ground' element={<PlayGround />} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>

@@ -1,18 +1,36 @@
-import React, { useState, useEffect } from 'react';
+// src/components/UI/Notification.js
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './Notification.module.css';
 
 const Notification = ({ message, type = 'success', duration = 3000, onClose }) => {
   const [visible, setVisible] = useState(true);
+  const timeoutRef = useRef(null);
 
   useEffect(() => {
-    if (!message) return;
+    if (!message) {
+      setVisible(false);
+      return;
+    }
     
-    const timer = setTimeout(() => {
+    setVisible(true);
+    
+    // ✅ Очищаем предыдущий таймер
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    
+    // ✅ Устанавливаем новый таймер
+    timeoutRef.current = setTimeout(() => {
       setVisible(false);
       if (onClose) onClose();
     }, duration);
     
-    return () => clearTimeout(timer);
+    // ✅ Очистка при размонтировании или изменении message
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
   }, [message, duration, onClose]);
 
   if (!visible || !message) return null;

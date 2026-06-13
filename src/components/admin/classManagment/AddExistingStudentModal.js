@@ -1,8 +1,7 @@
-// src/components/admin/AddExistingStudentModal.js
 import React, { useState, useEffect, useCallback } from 'react';
-import AddButton from '../UI/AddButton';
-import Notification from '../UI/Notification';
-import styles from './AddExistingStudentModal.module.css';
+import styles from '../modals/TeacherModals.module.css';
+import Notification from '../../UI/Notification';
+import AddButton from '../../UI/AddButton';
 
 const AddExistingStudentModal = ({ isOpen, onClose, onSuccess, classId, classOptions }) => {
   const [students, setStudents] = useState([]);

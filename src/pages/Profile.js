@@ -1,10 +1,7 @@
-// src/pages/Profile.js
 import React, { useState, useEffect, useCallback } from 'react';
-import { useAuth } from '../contexts/AuthContext';
 import styles from './Profile.module.css';
 
 const Profile = () => {
-  const { user, logout } = useAuth();
   const token = localStorage.getItem('token');
   
   const [userInfo, setUserInfo] = useState(null);
@@ -19,7 +16,22 @@ const Profile = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  // Получаем информацию о пользователе
+  const validatePassword = (password) => {
+    if (password.length < 6) {
+      return { isValid: false, message: 'Пароль должен содержать минимум 6 символов' };
+    }
+    
+    const allowedCharsRegex = /^[A-Za-z0-9]+$/;
+    if (!allowedCharsRegex.test(password)) {
+      return { 
+        isValid: false, 
+        message: 'Пароль может содержать только латинские буквы (A-Z, a-z) и цифры (0-9)' 
+      };
+    }
+    
+    return { isValid: true, message: '' };
+  };
+
   const fetchUserInfo = useCallback(async () => {
     try {
       const response = await fetch('http://localhost:3000/auth/me', {
@@ -82,8 +94,11 @@ const Profile = () => {
     
     if (!passwordData.newPassword) {
       newErrors.newPassword = 'Введите новый пароль';
-    } else if (passwordData.newPassword.length < 3) {
-      newErrors.newPassword = 'Пароль должен содержать минимум 3 символа';
+    } else {
+      const passwordValidation = validatePassword(passwordData.newPassword);
+      if (!passwordValidation.isValid) {
+        newErrors.newPassword = passwordValidation.message;
+      }
     }
     
     if (passwordData.newPassword !== passwordData.confirmPassword) {
@@ -238,6 +253,7 @@ const Profile = () => {
               {errors.newPassword && (
                 <span className={styles.errorText}>{errors.newPassword}</span>
               )}
+          
             </div>
             
             <div className={styles.formGroup}>
