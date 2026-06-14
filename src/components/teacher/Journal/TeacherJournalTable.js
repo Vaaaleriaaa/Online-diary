@@ -1,3 +1,4 @@
+// src/components/teacher/Journal/TeacherJournalTable.js
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './TeacherJournalTable.module.css';
 import Notification from '../../UI/Notification';
@@ -24,7 +25,7 @@ const TeacherJournalTable = ({
     }, 3000);
   };
 
-   useEffect(() => {
+  useEffect(() => {
     if (editingCell.studentId && editingCell.lessonId && inputRef.current) {
       inputRef.current.focus();
     }
@@ -81,14 +82,17 @@ const TeacherJournalTable = ({
     return cellData || '';
   };
 
-  // Сохранение значения
+  // ✅ ИСПРАВЛЕНО: защита от null/undefined при вызове trim()
   const saveValue = async (studentId, lessonId, value) => {
-    const trimmedValue = value ? value.trim() : '';
+    // ✅ Проверяем, что value существует и является строкой
+    const trimmedValue = (value && typeof value === 'string') ? value.trim() : '';
     
     if (trimmedValue === '') {
       // Удаляем значение
-      await onDeleteCell(studentId, lessonId);
-      return;
+      if (onDeleteCell) {
+        await onDeleteCell(studentId, lessonId);
+      }
+      return true;
     }
     
     // Валидация
@@ -99,13 +103,16 @@ const TeacherJournalTable = ({
         return false;
       }
     } else {
-      if (!['н', 'о', 'б'].includes(trimmedValue.toLowerCase())) {
+      const lowerValue = trimmedValue.toLowerCase();
+      if (!['н', 'о', 'б'].includes(lowerValue)) {
         showNotification('Допустимые значения: н, о, б', 'error');
         return false;
       }
     }
     
-    await onSaveCell(studentId, lessonId, trimmedValue);
+    if (onSaveCell) {
+      await onSaveCell(studentId, lessonId, trimmedValue);
+    }
     return true;
   };
 
@@ -161,12 +168,9 @@ const TeacherJournalTable = ({
     }
     
     if (type === 'grade') {
-    // Пустая ячейка
       if (value === null || value === '') {
         return styles.emptyGradeCell;
       }
-    
-      // Цвет в зависимости от оценки
       const gradeNum = parseInt(value);
       if (gradeNum === 5) return `${styles.gradeCell} ${styles.grade5}`;
       if (gradeNum === 4) return `${styles.gradeCell} ${styles.grade4}`;
@@ -174,7 +178,6 @@ const TeacherJournalTable = ({
       if (gradeNum === 2) return `${styles.gradeCell} ${styles.grade2}`;
       return styles.gradeCell;
     } else {
-      // Посещаемость
       switch(value) {
         case 'н': return `${styles.attendanceCell} ${styles.absent}`;
         case 'о': return `${styles.attendanceCell} ${styles.late}`;
@@ -240,7 +243,7 @@ const TeacherJournalTable = ({
                           onChange={(e) => setEditValue(e.target.value)}
                           onBlur={handleBlur}
                           onKeyDown={handleKeyDown}
-                          maxLength={1}
+                          maxLength={type === 'grade' ? 1 : 1}
                           autoFocus
                         />
                       </td>

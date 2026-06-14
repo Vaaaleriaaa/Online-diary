@@ -10,16 +10,17 @@ const StudentJournalRow = ({
 }) => {
 
   const getCellValue = (lessonId) => {
-    if (!data || !data[lessonId]) return '';
-    return data[lessonId];
+    const value = data[lessonId];
+    if (!value) return '';
+    return value;
   };
 
   const getCellClassName = (lessonId) => {
     const value = getCellValue(lessonId);
     
-    if (type !== 'attendance') {
+    if (type === 'grade') {
       // Оценки
-      if (!value) return styles.emptyGradeCell;
+      if (!value || value === '') return styles.emptyGradeCell;
       const gradeNum = parseInt(value);
       if (gradeNum === 5) return `${styles.gradeCell} ${styles.grade5}`;
       if (gradeNum === 4) return `${styles.gradeCell} ${styles.grade4}`;

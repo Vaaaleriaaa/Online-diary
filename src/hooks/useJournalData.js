@@ -1,3 +1,4 @@
+// src/hooks/useJournalData.js
 import { useCallback, useEffect, useState } from 'react';
 
 const useJournalData = (selectedClass, selectedSubject, activeTab, selectedMonth) => {
@@ -70,7 +71,7 @@ const useJournalData = (selectedClass, selectedSubject, activeTab, selectedMonth
     }
   }, [token, selectedClass, selectedSubject, selectedMonth]);
 
-  // Загрузка оценок класса
+  // ✅ Загрузка оценок класса (исправлено: используем lessonId)
   const fetchGrades = useCallback(async (studentsList, lessonsList) => {
     if (!selectedClass || !selectedSubject) return;
     if (!studentsList || studentsList.length === 0) return;
@@ -97,7 +98,7 @@ const useJournalData = (selectedClass, selectedSubject, activeTab, selectedMonth
           });
         });
         
-        // Заполняем существующие оценки
+        // ✅ Заполняем существующие оценки по lesson_id
         const studentsDataFromResponse = data.data.students || [];
         studentsDataFromResponse.forEach(student => {
           const userId = student.user_id || student.student_id;
@@ -108,22 +109,16 @@ const useJournalData = (selectedClass, selectedSubject, activeTab, selectedMonth
           
           if (student.grades && Array.isArray(student.grades)) {
             student.grades.forEach(grade => {
-              // Ищем урок по lesson_id или по дню
-              let lesson = null;
-              if (grade.lesson_id) {
-                lesson = lessonsList.find(l => l.lessonId === grade.lesson_id);
-              }
-              if (!lesson && grade.day) {
-                lesson = lessonsList.find(l => l.day === grade.day);
-              }
+              // ✅ Ищем урок по lesson_id
+              const lesson = lessonsList.find(l => l.lessonId === grade.lesson_id);
               if (lesson) {
                 gradesMap[userId][lesson.lessonId] = {
                   value: grade.value,
                   gradeId: grade.grade_id
                 };
-                console.log(`Оценка добавлена: userId=${userId}, lessonId=${lesson.lessonId}, day=${grade.day}, value=${grade.value}`);
+                console.log(`Оценка добавлена: userId=${userId}, lessonId=${lesson.lessonId}, value=${grade.value}`);
               } else {
-                console.warn(`Не найден урок для day=${grade.day}, lesson_id=${grade.lesson_id}`);
+                console.warn(`Не найден урок для lesson_id=${grade.lesson_id}`);
               }
             });
           }
@@ -139,7 +134,7 @@ const useJournalData = (selectedClass, selectedSubject, activeTab, selectedMonth
     }
   }, [token, selectedClass, selectedSubject, selectedMonth]);
 
-  // Загрузка посещаемости класса
+  // ✅ Загрузка посещаемости класса (исправлено: используем lessonId)
   const fetchAttendance = useCallback(async (studentsList, lessonsList) => {
     if (!selectedClass || !selectedSubject) return;
     if (!studentsList || studentsList.length === 0) return;
@@ -157,7 +152,6 @@ const useJournalData = (selectedClass, selectedSubject, activeTab, selectedMonth
       if (data.success && data.data) {
         const attendanceMap = {};
         
-        // Инициализируем пустые данные
         studentsList.forEach(student => {
           const userId = student.user_id;
           attendanceMap[userId] = {};
@@ -166,7 +160,7 @@ const useJournalData = (selectedClass, selectedSubject, activeTab, selectedMonth
           });
         });
         
-        // Заполняем существующие записи
+        // ✅ Заполняем существующие записи по lesson_id
         data.data.students?.forEach(student => {
           const userId = student.user_id || student.student_id;
           
@@ -176,18 +170,16 @@ const useJournalData = (selectedClass, selectedSubject, activeTab, selectedMonth
           
           if (student.attendance && Array.isArray(student.attendance)) {
             student.attendance.forEach(record => {
-              let lesson = null;
-              if (record.lesson_id) {
-                lesson = lessonsList.find(l => l.lessonId === record.lesson_id);
-              }
-              if (!lesson && record.day) {
-                lesson = lessonsList.find(l => l.day === record.day);
-              }
+              // ✅ Ищем урок по lesson_id
+              const lesson = lessonsList.find(l => l.lessonId === record.lesson_id);
               if (lesson) {
                 attendanceMap[userId][lesson.lessonId] = {
                   status: record.status,
                   attendanceId: record.attendance_id
                 };
+                console.log(`Посещаемость добавлена: userId=${userId}, lessonId=${lesson.lessonId}, status=${record.status}`);
+              } else {
+                console.warn(`Не найден урок для lesson_id=${record.lesson_id}`);
               }
             });
           }
@@ -203,43 +195,30 @@ const useJournalData = (selectedClass, selectedSubject, activeTab, selectedMonth
     }
   }, [token, selectedClass, selectedSubject, selectedMonth]);
 
-  // ✅ Главный эффект загрузки данных (последовательный)
   useEffect(() => {
     const loadAllData = async () => {
       if (!selectedClass || !selectedSubject) return;
       
-      console.log('Начинаем загрузку данных...');
-      
-      // 1. Загружаем учеников
       const studentsList = await fetchStudents();
-      console.log('Загружено учеников:', studentsList.length);
-      
-      // 2. Загружаем уроки
       const lessonsList = await fetchLessons();
-      console.log('Загружено уроков:', lessonsList.length);
       
-      // 3. Загружаем оценки или посещаемость
       if (studentsList.length > 0 && lessonsList.length > 0) {
         if (activeTab === 'gradeJournal') {
           await fetchGrades(studentsList, lessonsList);
         } else {
           await fetchAttendance(studentsList, lessonsList);
         }
-      } else {
-        console.warn('Нет учеников или уроков для загрузки');
       }
       
       setIsDataLoaded(true);
     };
     
     loadAllData();
-  }, [selectedClass, selectedSubject, selectedMonth, activeTab, fetchStudents, fetchLessons, fetchGrades, fetchAttendance]);
+  }, [selectedClass, selectedSubject, selectedMonth, activeTab]);
 
   // Сохранение оценки
   const handleSaveGrade = useCallback(async (studentId, lessonId, value) => {
     try {
-      const url = 'http://localhost:3000/grades';
-      
       const gradeInfo = gradesData[studentId]?.[lessonId];
       const existingGradeId = gradeInfo?.gradeId;
       
@@ -247,7 +226,7 @@ const useJournalData = (selectedClass, selectedSubject, activeTab, selectedMonth
       let newGradeId = null;
       
       if (existingGradeId) {
-        response = await fetch(`${url}/${existingGradeId}`, {
+        response = await fetch(`http://localhost:3000/grades/${existingGradeId}`, {
           method: 'PUT',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -257,7 +236,7 @@ const useJournalData = (selectedClass, selectedSubject, activeTab, selectedMonth
         });
         newGradeId = existingGradeId;
       } else {
-        response = await fetch(url, {
+        response = await fetch('http://localhost:3000/grades', {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -299,8 +278,6 @@ const useJournalData = (selectedClass, selectedSubject, activeTab, selectedMonth
   // Сохранение посещаемости
   const handleSaveAttendance = useCallback(async (studentId, lessonId, status) => {
     try {
-      const url = 'http://localhost:3000/attendance';
-      
       const attendanceInfo = attendanceData[studentId]?.[lessonId];
       const existingAttendanceId = attendanceInfo?.attendanceId;
       
@@ -308,7 +285,7 @@ const useJournalData = (selectedClass, selectedSubject, activeTab, selectedMonth
       let newAttendanceId = null;
       
       if (existingAttendanceId) {
-        response = await fetch(`${url}/${existingAttendanceId}`, {
+        response = await fetch(`http://localhost:3000/attendance/${existingAttendanceId}`, {
           method: 'PUT',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -318,7 +295,7 @@ const useJournalData = (selectedClass, selectedSubject, activeTab, selectedMonth
         });
         newAttendanceId = existingAttendanceId;
       } else {
-        response = await fetch(url, {
+        response = await fetch('http://localhost:3000/attendance', {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -364,13 +341,13 @@ const useJournalData = (selectedClass, selectedSubject, activeTab, selectedMonth
       const existingGradeId = gradeInfo?.gradeId;
       
       if (!existingGradeId) {
-        setGradesData(prev => {
-          const newData = { ...prev };
-          if (newData[studentId]) {
-            delete newData[studentId][lessonId];
+        setGradesData(prev => ({
+          ...prev,
+          [studentId]: {
+            ...prev[studentId],
+            [lessonId]: null
           }
-          return newData;
-        });
+        }));
         return;
       }
       
@@ -382,35 +359,37 @@ const useJournalData = (selectedClass, selectedSubject, activeTab, selectedMonth
         },
         body: JSON.stringify({}),
       });
-            
+      
       if (response.ok) {
-        setGradesData(prev => {
-          const newData = { ...prev };
-          if (newData[studentId]) {
-            delete newData[studentId][lessonId];
+        setGradesData(prev => ({
+          ...prev,
+          [studentId]: {
+            ...prev[studentId],
+            [lessonId]: null
           }
-          return newData;
-        });
+        }));
+      } else {
+        console.error('Ошибка удаления оценки');
       }
     } catch (err) {
       console.error('Ошибка удаления оценки:', err);
     }
   }, [token, gradesData]);
 
-  // Удаление отметки посещаемости
+  // Удаление посещаемости
   const handleDeleteAttendance = useCallback(async (studentId, lessonId) => {
     try {
       const attendanceInfo = attendanceData[studentId]?.[lessonId];
       const existingAttendanceId = attendanceInfo?.attendanceId;
       
       if (!existingAttendanceId) {
-        setAttendanceData(prev => {
-          const newData = { ...prev };
-          if (newData[studentId]) {
-            delete newData[studentId][lessonId];
+        setAttendanceData(prev => ({
+          ...prev,
+          [studentId]: {
+            ...prev[studentId],
+            [lessonId]: null
           }
-          return newData;
-        });
+        }));
         return;
       }
       
@@ -422,22 +401,23 @@ const useJournalData = (selectedClass, selectedSubject, activeTab, selectedMonth
         },
         body: JSON.stringify({}),
       });
-            
+      
       if (response.ok) {
-        setAttendanceData(prev => {
-          const newData = { ...prev };
-          if (newData[studentId]) {
-            delete newData[studentId][lessonId];
+        setAttendanceData(prev => ({
+          ...prev,
+          [studentId]: {
+            ...prev[studentId],
+            [lessonId]: null
           }
-          return newData;
-        });
+        }));
+      } else {
+        console.error('Ошибка удаления посещаемости');
       }
     } catch (err) {
-      console.error('Ошибка удаления отметки:', err);
+      console.error('Ошибка удаления посещаемости:', err);
     }
   }, [token, attendanceData]);
 
-  // Общие обработчики
   const handleSaveCell = useCallback(async (studentId, lessonId, value) => {
     if (activeTab === 'gradeJournal') {
       await handleSaveGrade(studentId, lessonId, value);

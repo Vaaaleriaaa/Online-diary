@@ -1,3 +1,4 @@
+// src/pages/student/StudentJournal.js
 import React, { useState, useEffect, useCallback } from 'react';
 import styles from './StudentJournal.module.css';
 import { useAuth } from "../../contexts/AuthContext";
@@ -47,30 +48,38 @@ const StudentJournal = () => {
     }
   }, [user, token]);
 
- // Извлекаем уникальные уроки из данных (для колонок таблицы)
+  // ✅ Функция извлечения уроков из данных (для ученика)
   const extractLessonsFromData = (data) => {
     if (!data || !data.subjects) return [];
     
-    const lessonsMap = new Map();
+    const lessonsSet = new Set();
     
     data.subjects.forEach(subject => {
       const records = subject.grades || subject.attendance;
       if (records && Array.isArray(records)) {
         records.forEach(record => {
-          if (!lessonsMap.has(record.day)) {
-            lessonsMap.set(record.day, {
-              lessonId: `day_${record.day}`,
-              day: record.day,
-              lessonNumber: 1
-            });
-          }
+          // ✅ Используем lesson_number из ответа сервера
+          const lessonKey = `${record.day}_${record.lesson_number || 1}`;
+          lessonsSet.add(lessonKey);
         });
       }
     });
     
-    const lessonsList = Array.from(lessonsMap.values());
-    lessonsList.sort((a, b) => a.day - b.day);
+    const lessonsList = Array.from(lessonsSet).map(key => {
+      const [day, lessonNumber] = key.split('_');
+      return {
+        lessonId: `day_${day}_${lessonNumber}`,
+        day: parseInt(day),
+        lessonNumber: parseInt(lessonNumber)
+      };
+    });
     
+    lessonsList.sort((a, b) => {
+      if (a.day !== b.day) return a.day - b.day;
+      return a.lessonNumber - b.lessonNumber;
+    });
+    
+    console.log('Уроки для ученика:', lessonsList);
     return lessonsList;
   };
 
@@ -79,24 +88,21 @@ const StudentJournal = () => {
     setLoading(true);
     try {
       const monthNumber = selectedMonth + 1;
-      console.log(`Запрос оценок: месяц=${monthNumber}, год=${selectedYear}`);
       
       const response = await fetch(
         `http://localhost:3000/grades/student?month=${monthNumber}&year=${selectedYear}`,
         { headers: { 'Authorization': `Bearer ${token}` } }
       );
       const data = await response.json();
-      console.log('Оценки:', data);
+      console.log('Оценки ученика:', data);
       
       if (data.success && data.data) {
         setGradesData(data.data);
         
-        // Извлекаем предметы
         if (data.data.subjects && data.data.subjects.length > 0) {
           setSubjects(data.data.subjects);
         }
         
-        // Извлекаем уроки из оценок
         const lessonsList = extractLessonsFromData(data.data);
         setLessons(lessonsList);
       } else {
@@ -117,24 +123,21 @@ const StudentJournal = () => {
     setLoading(true);
     try {
       const monthNumber = selectedMonth + 1;
-      console.log(`Запрос посещаемости: месяц=${monthNumber}, год=${selectedYear}`);
       
       const response = await fetch(
         `http://localhost:3000/attendance/student?month=${monthNumber}&year=${selectedYear}`,
         { headers: { 'Authorization': `Bearer ${token}` } }
       );
       const data = await response.json();
-      console.log('Посещаемость:', data);
+      console.log('Посещаемость ученика:', data);
       
       if (data.success && data.data) {
         setAttendanceData(data.data);
         
-        // Извлекаем предметы
         if (data.data.subjects && data.data.subjects.length > 0) {
           setSubjects(data.data.subjects);
         }
         
-        // Извлекаем уроки из данных посещаемости
         const lessonsList = extractLessonsFromData(data.data);
         setLessons(lessonsList);
       } else {
@@ -154,7 +157,7 @@ const StudentJournal = () => {
     fetchStudentInfo();
   }, [fetchStudentInfo]);
 
-   useEffect(() => {
+  useEffect(() => {
     if (selectedMonth !== undefined && selectedYear) {
       if (activeTabJournal === 'gradeJournal') {
         fetchGrades();

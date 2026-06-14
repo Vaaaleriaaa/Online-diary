@@ -1,3 +1,4 @@
+// src/components/student/Journal/StudentJournalTable.js
 import React from 'react';
 import styles from './StudentJournalTable.module.css';
 import StudentJournalRow from './StudentJournalRow';
@@ -11,7 +12,7 @@ const StudentJournalTable = ({
 }) => {
 
   const sortedSubjects = [...(subjects || [])].sort((a, b) => 
-    a.subject_name.localeCompare(b.subject_name)
+    (a.subject_name || '').localeCompare(b.subject_name || '')
   );
 
   // Сортируем уроки по дню и номеру
@@ -20,6 +21,7 @@ const StudentJournalTable = ({
     return a.lessonNumber - b.lessonNumber;
   });
 
+  // ✅ Создаем карту данных для быстрого доступа
   const buildDataMap = () => {
     if (!data || !data.subjects) return {};
     
@@ -27,20 +29,17 @@ const StudentJournalTable = ({
     data.subjects.forEach(subject => {
       dataMap[subject.subject_id] = {};
       
-      // ✅ Определяем, с каким полем работаем: 'grades' или 'attendance'
       const records = subject.grades || subject.attendance;
-      
       if (records && Array.isArray(records)) {
         records.forEach(record => {
-          // Находим lessonId по дню
-          const lesson = sortedLessons.find(l => l.day === record.day);
+          // ✅ Используем lesson_number для поиска
+          const lesson = sortedLessons.find(l => 
+            l.day === record.day && l.lessonNumber === record.lesson_number
+          );
           if (lesson) {
-            // ✅ Для оценок берем record.grade, для посещаемости - record.status
             const value = type === 'grade' ? record.grade : record.status;
-            // ✅ Сохраняем значение, если оно есть и не null
-            if (value !== null && value !== undefined) {
-              dataMap[subject.subject_id][lesson.lessonId] = value;
-            }
+            // Сохраняем значение, даже если это null (для отображения пустых ячеек)
+            dataMap[subject.subject_id][lesson.lessonId] = value !== null && value !== undefined ? value : null;
           }
         });
       }
@@ -56,7 +55,6 @@ const StudentJournalTable = ({
 
   return (
     <div className={styles.tableWrapper}>
-
       <table className={styles.journalTable}>
         <thead>
           <tr>
